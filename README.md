@@ -1,0 +1,1 @@
+The webserver backend for HolySheet. This is in charge of essentially relaying information to the core program via gPRC, allowing for things like rate limits and potentially restarting of the backend core without disruption of the connections. Later on, this will be containerized via Kubernetes to allow for a saleable approach.
