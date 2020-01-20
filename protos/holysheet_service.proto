@@ -117,20 +117,6 @@ message CodeExecutionCallbackResponse {
 message ListenCallbacksRequest {
 }
 
-message StoreCodeRequest {
-    string code = 1; // An authenticationCode provided by the client-side auth flow, granting HolySheet app permission
-}
-
-message StoreCodeResponse {
-}
-
-message CheckRequest {
-    string token = 1;
-}
-
-message CheckResponse {
-}
-
 service HolySheetService {
 
     // Lists files with an optional path
@@ -150,9 +136,4 @@ service HolySheetService {
 
     // Should only be invoked once. Streams back all callbacks
     rpc listenCallbacks(ListenCallbacksRequest) returns (stream CodeExecutionCallbackResponse);
-
-    // Stores the authentication code from the client
-    rpc storeCode(StoreCodeRequest) returns (StoreCodeResponse);
-
-    rpc check(CheckRequest) returns (CheckResponse);
 }

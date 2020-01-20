@@ -174,25 +174,3 @@ const ListenCallbacksRequest$json = const {
   '1': 'ListenCallbacksRequest',
 };
 
-const StoreCodeRequest$json = const {
-  '1': 'StoreCodeRequest',
-  '2': const [
-    const {'1': 'code', '3': 1, '4': 1, '5': 9, '10': 'code'},
-  ],
-};
-
-const StoreCodeResponse$json = const {
-  '1': 'StoreCodeResponse',
-};
-
-const CheckRequest$json = const {
-  '1': 'CheckRequest',
-  '2': const [
-    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
-  ],
-};
-
-const CheckResponse$json = const {
-  '1': 'CheckResponse',
-};
-
