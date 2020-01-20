@@ -53,6 +53,10 @@ class HolySheetServiceClient extends $grpc.Client {
           ($0.StoreCodeRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.StoreCodeResponse.fromBuffer(value));
+  static final _$check = $grpc.ClientMethod<$0.CheckRequest, $0.CheckResponse>(
+      '/com.uddernetworks.grpc.HolySheetService/check',
+      ($0.CheckRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.CheckResponse.fromBuffer(value));
 
   HolySheetServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions options})
@@ -115,6 +119,13 @@ class HolySheetServiceClient extends $grpc.Client {
         options: options);
     return $grpc.ResponseFuture(call);
   }
+
+  $grpc.ResponseFuture<$0.CheckResponse> check($0.CheckRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$check, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
 }
 
 abstract class HolySheetServiceBase extends $grpc.Service {
@@ -174,6 +185,13 @@ abstract class HolySheetServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.StoreCodeRequest.fromBuffer(value),
         ($0.StoreCodeResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.CheckRequest, $0.CheckResponse>(
+        'check',
+        check_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.CheckRequest.fromBuffer(value),
+        ($0.CheckResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.ListResponse> listFiles_Pre(
@@ -213,6 +231,11 @@ abstract class HolySheetServiceBase extends $grpc.Service {
     return storeCode(call, await request);
   }
 
+  $async.Future<$0.CheckResponse> check_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.CheckRequest> request) async {
+    return check(call, await request);
+  }
+
   $async.Future<$0.ListResponse> listFiles(
       $grpc.ServiceCall call, $0.ListRequest request);
   $async.Stream<$0.UploadResponse> uploadFile(
@@ -227,4 +250,6 @@ abstract class HolySheetServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.ListenCallbacksRequest request);
   $async.Future<$0.StoreCodeResponse> storeCode(
       $grpc.ServiceCall call, $0.StoreCodeRequest request);
+  $async.Future<$0.CheckResponse> check(
+      $grpc.ServiceCall call, $0.CheckRequest request);
 }

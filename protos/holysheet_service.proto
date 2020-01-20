@@ -124,6 +124,13 @@ message StoreCodeRequest {
 message StoreCodeResponse {
 }
 
+message CheckRequest {
+    string token = 1;
+}
+
+message CheckResponse {
+}
+
 service HolySheetService {
 
     // Lists files with an optional path
@@ -146,4 +153,6 @@ service HolySheetService {
 
     // Stores the authentication code from the client
     rpc storeCode(StoreCodeRequest) returns (StoreCodeResponse);
+
+    rpc check(CheckRequest) returns (CheckResponse);
 }

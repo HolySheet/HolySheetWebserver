@@ -726,3 +726,55 @@ class StoreCodeResponse extends $pb.GeneratedMessage {
   static StoreCodeResponse _defaultInstance;
 }
 
+class CheckRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CheckRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..aOS(1, 'token')
+    ..hasRequiredFields = false
+  ;
+
+  CheckRequest._() : super();
+  factory CheckRequest() => create();
+  factory CheckRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CheckRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  CheckRequest clone() => CheckRequest()..mergeFromMessage(this);
+  CheckRequest copyWith(void Function(CheckRequest) updates) => super.copyWith((message) => updates(message as CheckRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static CheckRequest create() => CheckRequest._();
+  CheckRequest createEmptyInstance() => create();
+  static $pb.PbList<CheckRequest> createRepeated() => $pb.PbList<CheckRequest>();
+  @$core.pragma('dart2js:noInline')
+  static CheckRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CheckRequest>(create);
+  static CheckRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get token => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set token($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearToken() => clearField(1);
+}
+
+class CheckResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CheckResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  CheckResponse._() : super();
+  factory CheckResponse() => create();
+  factory CheckResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CheckResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  CheckResponse clone() => CheckResponse()..mergeFromMessage(this);
+  CheckResponse copyWith(void Function(CheckResponse) updates) => super.copyWith((message) => updates(message as CheckResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static CheckResponse create() => CheckResponse._();
+  CheckResponse createEmptyInstance() => create();
+  static $pb.PbList<CheckResponse> createRepeated() => $pb.PbList<CheckResponse>();
+  @$core.pragma('dart2js:noInline')
+  static CheckResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CheckResponse>(create);
+  static CheckResponse _defaultInstance;
+}
+
