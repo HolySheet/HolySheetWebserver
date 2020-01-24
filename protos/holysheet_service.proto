@@ -96,16 +96,15 @@ message RemoveResponse {
 }
 
 message CodeExecutionRequest {
-    string token = 1; // The Google authentication token
-    string code = 2; // A snippet of Java code, exactly one complete snippet of source code, that is, one expression,
+    string code = 1; // A snippet of Java code, exactly one complete snippet of source code, that is, one expression,
     // statement, variable declaration, method declaration, class declaration, or import. - JShell. Invoked on the server
 
-    repeated string returnVariables = 3; // A list of extra variables to return in the response
+    repeated string returnVariables = 2; // A list of extra variables to return in the response
 }
 
 message CodeExecutionResponse {
-    repeated string snippetResult = 2; // A list of implicit or explicitly created variables in the snippet
-    repeated SerializedVariable variables = 3; // A list of variables listed in the request via returnVariables, and in this response via snippetResult
+    repeated string snippetResult = 1; // A list of implicit or explicitly created variables in the snippet
+    repeated SerializedVariable variables = 2; // A list of variables listed in the request via returnVariables, and in this response via snippetResult
 }
 
 message CodeExecutionCallbackResponse {
