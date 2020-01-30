@@ -10,12 +10,14 @@ const ListItem$json = const {
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'sheets', '3': 3, '4': 1, '5': 5, '10': 'sheets'},
-    const {'1': 'size', '3': 4, '4': 1, '5': 3, '10': 'size'},
-    const {'1': 'date', '3': 5, '4': 1, '5': 3, '10': 'date'},
-    const {'1': 'selfOwned', '3': 6, '4': 1, '5': 8, '10': 'selfOwned'},
-    const {'1': 'owner', '3': 7, '4': 1, '5': 9, '10': 'owner'},
-    const {'1': 'driveLink', '3': 8, '4': 1, '5': 9, '10': 'driveLink'},
+    const {'1': 'path', '3': 3, '4': 1, '5': 9, '10': 'path'},
+    const {'1': 'folder', '3': 4, '4': 1, '5': 8, '10': 'folder'},
+    const {'1': 'sheets', '3': 5, '4': 1, '5': 5, '10': 'sheets'},
+    const {'1': 'size', '3': 6, '4': 1, '5': 3, '10': 'size'},
+    const {'1': 'date', '3': 7, '4': 1, '5': 3, '10': 'date'},
+    const {'1': 'selfOwned', '3': 8, '4': 1, '5': 8, '10': 'selfOwned'},
+    const {'1': 'owner', '3': 9, '4': 1, '5': 9, '10': 'owner'},
+    const {'1': 'driveLink', '3': 10, '4': 1, '5': 9, '10': 'driveLink'},
   ],
 };
 
@@ -48,10 +50,11 @@ const UploadRequest$json = const {
   '2': const [
     const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
     const {'1': 'file', '3': 2, '4': 1, '5': 9, '10': 'file'},
-    const {'1': 'id', '3': 3, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'upload', '3': 4, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.UploadRequest.Upload', '10': 'upload'},
-    const {'1': 'compression', '3': 5, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.UploadRequest.Compression', '10': 'compression'},
-    const {'1': 'sheetSize', '3': 6, '4': 1, '5': 3, '10': 'sheetSize'},
+    const {'1': 'name', '3': 3, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'id', '3': 4, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'upload', '3': 5, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.UploadRequest.Upload', '10': 'upload'},
+    const {'1': 'compression', '3': 6, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.UploadRequest.Compression', '10': 'compression'},
+    const {'1': 'sheetSize', '3': 7, '4': 1, '5': 3, '10': 'sheetSize'},
   ],
   '4': const [UploadRequest_Upload$json, UploadRequest_Compression$json],
 };
@@ -147,17 +150,16 @@ const RemoveResponse_RemoveStatus$json = const {
 const CodeExecutionRequest$json = const {
   '1': 'CodeExecutionRequest',
   '2': const [
-    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
-    const {'1': 'code', '3': 2, '4': 1, '5': 9, '10': 'code'},
-    const {'1': 'returnVariables', '3': 3, '4': 3, '5': 9, '10': 'returnVariables'},
+    const {'1': 'code', '3': 1, '4': 1, '5': 9, '10': 'code'},
+    const {'1': 'returnVariables', '3': 2, '4': 3, '5': 9, '10': 'returnVariables'},
   ],
 };
 
 const CodeExecutionResponse$json = const {
   '1': 'CodeExecutionResponse',
   '2': const [
-    const {'1': 'snippetResult', '3': 2, '4': 3, '5': 9, '10': 'snippetResult'},
-    const {'1': 'variables', '3': 3, '4': 3, '5': 11, '6': '.com.uddernetworks.grpc.SerializedVariable', '10': 'variables'},
+    const {'1': 'snippetResult', '3': 1, '4': 3, '5': 9, '10': 'snippetResult'},
+    const {'1': 'variables', '3': 2, '4': 3, '5': 11, '6': '.com.uddernetworks.grpc.SerializedVariable', '10': 'variables'},
   ],
 };
 

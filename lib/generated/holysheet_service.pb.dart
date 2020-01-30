@@ -18,12 +18,14 @@ class ListItem extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListItem', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
     ..aOS(1, 'name')
     ..aOS(2, 'id')
-    ..a<$core.int>(3, 'sheets', $pb.PbFieldType.O3)
-    ..aInt64(4, 'size')
-    ..aInt64(5, 'date')
-    ..aOB(6, 'selfOwned', protoName: 'selfOwned')
-    ..aOS(7, 'owner')
-    ..aOS(8, 'driveLink', protoName: 'driveLink')
+    ..aOS(3, 'path')
+    ..aOB(4, 'folder')
+    ..a<$core.int>(5, 'sheets', $pb.PbFieldType.O3)
+    ..aInt64(6, 'size')
+    ..aInt64(7, 'date')
+    ..aOB(8, 'selfOwned', protoName: 'selfOwned')
+    ..aOS(9, 'owner')
+    ..aOS(10, 'driveLink', protoName: 'driveLink')
     ..hasRequiredFields = false
   ;
 
@@ -61,58 +63,76 @@ class ListItem extends $pb.GeneratedMessage {
   void clearId() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.int get sheets => $_getIZ(2);
+  $core.String get path => $_getSZ(2);
   @$pb.TagNumber(3)
-  set sheets($core.int v) { $_setSignedInt32(2, v); }
+  set path($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasSheets() => $_has(2);
+  $core.bool hasPath() => $_has(2);
   @$pb.TagNumber(3)
-  void clearSheets() => clearField(3);
+  void clearPath() => clearField(3);
 
   @$pb.TagNumber(4)
-  $fixnum.Int64 get size => $_getI64(3);
+  $core.bool get folder => $_getBF(3);
   @$pb.TagNumber(4)
-  set size($fixnum.Int64 v) { $_setInt64(3, v); }
+  set folder($core.bool v) { $_setBool(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasSize() => $_has(3);
+  $core.bool hasFolder() => $_has(3);
   @$pb.TagNumber(4)
-  void clearSize() => clearField(4);
+  void clearFolder() => clearField(4);
 
   @$pb.TagNumber(5)
-  $fixnum.Int64 get date => $_getI64(4);
+  $core.int get sheets => $_getIZ(4);
   @$pb.TagNumber(5)
-  set date($fixnum.Int64 v) { $_setInt64(4, v); }
+  set sheets($core.int v) { $_setSignedInt32(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasDate() => $_has(4);
+  $core.bool hasSheets() => $_has(4);
   @$pb.TagNumber(5)
-  void clearDate() => clearField(5);
+  void clearSheets() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.bool get selfOwned => $_getBF(5);
+  $fixnum.Int64 get size => $_getI64(5);
   @$pb.TagNumber(6)
-  set selfOwned($core.bool v) { $_setBool(5, v); }
+  set size($fixnum.Int64 v) { $_setInt64(5, v); }
   @$pb.TagNumber(6)
-  $core.bool hasSelfOwned() => $_has(5);
+  $core.bool hasSize() => $_has(5);
   @$pb.TagNumber(6)
-  void clearSelfOwned() => clearField(6);
+  void clearSize() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.String get owner => $_getSZ(6);
+  $fixnum.Int64 get date => $_getI64(6);
   @$pb.TagNumber(7)
-  set owner($core.String v) { $_setString(6, v); }
+  set date($fixnum.Int64 v) { $_setInt64(6, v); }
   @$pb.TagNumber(7)
-  $core.bool hasOwner() => $_has(6);
+  $core.bool hasDate() => $_has(6);
   @$pb.TagNumber(7)
-  void clearOwner() => clearField(7);
+  void clearDate() => clearField(7);
 
   @$pb.TagNumber(8)
-  $core.String get driveLink => $_getSZ(7);
+  $core.bool get selfOwned => $_getBF(7);
   @$pb.TagNumber(8)
-  set driveLink($core.String v) { $_setString(7, v); }
+  set selfOwned($core.bool v) { $_setBool(7, v); }
   @$pb.TagNumber(8)
-  $core.bool hasDriveLink() => $_has(7);
+  $core.bool hasSelfOwned() => $_has(7);
   @$pb.TagNumber(8)
-  void clearDriveLink() => clearField(8);
+  void clearSelfOwned() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get owner => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set owner($core.String v) { $_setString(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasOwner() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearOwner() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get driveLink => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set driveLink($core.String v) { $_setString(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasDriveLink() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearDriveLink() => clearField(10);
 }
 
 class SerializedVariable extends $pb.GeneratedMessage {
@@ -236,10 +256,11 @@ class UploadRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('UploadRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
     ..aOS(1, 'token')
     ..aOS(2, 'file')
-    ..aOS(3, 'id')
-    ..e<UploadRequest_Upload>(4, 'upload', $pb.PbFieldType.OE, defaultOrMaker: UploadRequest_Upload.MULTIPART, valueOf: UploadRequest_Upload.valueOf, enumValues: UploadRequest_Upload.values)
-    ..e<UploadRequest_Compression>(5, 'compression', $pb.PbFieldType.OE, defaultOrMaker: UploadRequest_Compression.NONE, valueOf: UploadRequest_Compression.valueOf, enumValues: UploadRequest_Compression.values)
-    ..aInt64(6, 'sheetSize', protoName: 'sheetSize')
+    ..aOS(3, 'name')
+    ..aOS(4, 'id')
+    ..e<UploadRequest_Upload>(5, 'upload', $pb.PbFieldType.OE, defaultOrMaker: UploadRequest_Upload.MULTIPART, valueOf: UploadRequest_Upload.valueOf, enumValues: UploadRequest_Upload.values)
+    ..e<UploadRequest_Compression>(6, 'compression', $pb.PbFieldType.OE, defaultOrMaker: UploadRequest_Compression.NONE, valueOf: UploadRequest_Compression.valueOf, enumValues: UploadRequest_Compression.values)
+    ..aInt64(7, 'sheetSize', protoName: 'sheetSize')
     ..hasRequiredFields = false
   ;
 
@@ -277,40 +298,49 @@ class UploadRequest extends $pb.GeneratedMessage {
   void clearFile() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get id => $_getSZ(2);
+  $core.String get name => $_getSZ(2);
   @$pb.TagNumber(3)
-  set id($core.String v) { $_setString(2, v); }
+  set name($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasId() => $_has(2);
+  $core.bool hasName() => $_has(2);
   @$pb.TagNumber(3)
-  void clearId() => clearField(3);
+  void clearName() => clearField(3);
 
   @$pb.TagNumber(4)
-  UploadRequest_Upload get upload => $_getN(3);
+  $core.String get id => $_getSZ(3);
   @$pb.TagNumber(4)
-  set upload(UploadRequest_Upload v) { setField(4, v); }
+  set id($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasUpload() => $_has(3);
+  $core.bool hasId() => $_has(3);
   @$pb.TagNumber(4)
-  void clearUpload() => clearField(4);
+  void clearId() => clearField(4);
 
   @$pb.TagNumber(5)
-  UploadRequest_Compression get compression => $_getN(4);
+  UploadRequest_Upload get upload => $_getN(4);
   @$pb.TagNumber(5)
-  set compression(UploadRequest_Compression v) { setField(5, v); }
+  set upload(UploadRequest_Upload v) { setField(5, v); }
   @$pb.TagNumber(5)
-  $core.bool hasCompression() => $_has(4);
+  $core.bool hasUpload() => $_has(4);
   @$pb.TagNumber(5)
-  void clearCompression() => clearField(5);
+  void clearUpload() => clearField(5);
 
   @$pb.TagNumber(6)
-  $fixnum.Int64 get sheetSize => $_getI64(5);
+  UploadRequest_Compression get compression => $_getN(5);
   @$pb.TagNumber(6)
-  set sheetSize($fixnum.Int64 v) { $_setInt64(5, v); }
+  set compression(UploadRequest_Compression v) { setField(6, v); }
   @$pb.TagNumber(6)
-  $core.bool hasSheetSize() => $_has(5);
+  $core.bool hasCompression() => $_has(5);
   @$pb.TagNumber(6)
-  void clearSheetSize() => clearField(6);
+  void clearCompression() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $fixnum.Int64 get sheetSize => $_getI64(6);
+  @$pb.TagNumber(7)
+  set sheetSize($fixnum.Int64 v) { $_setInt64(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasSheetSize() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearSheetSize() => clearField(7);
 }
 
 class UploadResponse extends $pb.GeneratedMessage {
@@ -542,9 +572,8 @@ class RemoveResponse extends $pb.GeneratedMessage {
 
 class CodeExecutionRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeExecutionRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
-    ..aOS(1, 'token')
-    ..aOS(2, 'code')
-    ..pPS(3, 'returnVariables', protoName: 'returnVariables')
+    ..aOS(1, 'code')
+    ..pPS(2, 'returnVariables', protoName: 'returnVariables')
     ..hasRequiredFields = false
   ;
 
@@ -564,31 +593,22 @@ class CodeExecutionRequest extends $pb.GeneratedMessage {
   static CodeExecutionRequest _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get token => $_getSZ(0);
+  $core.String get code => $_getSZ(0);
   @$pb.TagNumber(1)
-  set token($core.String v) { $_setString(0, v); }
+  set code($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasToken() => $_has(0);
+  $core.bool hasCode() => $_has(0);
   @$pb.TagNumber(1)
-  void clearToken() => clearField(1);
+  void clearCode() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get code => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set code($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasCode() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearCode() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.List<$core.String> get returnVariables => $_getList(2);
+  $core.List<$core.String> get returnVariables => $_getList(1);
 }
 
 class CodeExecutionResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeExecutionResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
-    ..pPS(2, 'snippetResult', protoName: 'snippetResult')
-    ..pc<SerializedVariable>(3, 'variables', $pb.PbFieldType.PM, subBuilder: SerializedVariable.create)
+    ..pPS(1, 'snippetResult', protoName: 'snippetResult')
+    ..pc<SerializedVariable>(2, 'variables', $pb.PbFieldType.PM, subBuilder: SerializedVariable.create)
     ..hasRequiredFields = false
   ;
 
@@ -607,10 +627,10 @@ class CodeExecutionResponse extends $pb.GeneratedMessage {
   static CodeExecutionResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CodeExecutionResponse>(create);
   static CodeExecutionResponse _defaultInstance;
 
-  @$pb.TagNumber(2)
+  @$pb.TagNumber(1)
   $core.List<$core.String> get snippetResult => $_getList(0);
 
-  @$pb.TagNumber(3)
+  @$pb.TagNumber(2)
   $core.List<SerializedVariable> get variables => $_getList(1);
 }
 

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:HolySheetWebserver/generated/holysheet_service.pbgrpc.dart';
 import 'package:HolySheetWebserver/grpc_client.dart';
 import 'package:HolySheetWebserver/serializer.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:meta/meta.dart';
 import 'package:mime/mime.dart';
 import 'package:shelf/shelf.dart';
@@ -14,6 +16,7 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:intl/intl.dart';
 import 'dart:math';
 
 const CLIENT_ID =
@@ -54,42 +57,83 @@ class Service {
             var header = HeaderValue.parse(request.headers['content-type']);
 
             // Only accept one file (For now)
-            final first = await request.read().transform(
-                MimeMultipartTransformer(header.parameters['boundary'])).single;
+            final first = await request
+                .read()
+                .transform(
+                    MimeMultipartTransformer(header.parameters['boundary']))
+                .single;
 
-              if (!first.headers.containsKey('content-disposition')) {
-                return getBody(400, 'Header "Content-Disposition" not found');
-              }
+            if (!first.headers.containsKey('content-disposition')) {
+              return getBody(400, 'Header "Content-Disposition" not found');
+            }
 
-              header = HeaderValue.parse(first.headers['content-disposition']);
-              var filename = header.parameters['filename'];
-              print('filename = $filename ($processingId)');
-              final file = File('upload\\$processingId');
-              var fileSink = file.openWrite();
-              await first.pipe(fileSink);
-              await fileSink.close();
+            header = HeaderValue.parse(first.headers['content-disposition']);
+            var fileName = header.parameters['filename'];
+            print('filename = $fileName ($processingId)');
+            final file = File('upload\\$processingId');
+            var fileSink = file.openWrite();
+            await first.pipe(fileSink);
+            await fileSink.close();
 
-            final processor = FileProcessor(processingId, filename);
+            final processor = FileProcessor(processingId, fileName);
             processingFiles.add(processor);
 
-            var iter = 0.toDouble();
-            Timer.periodic(Duration(milliseconds: 750), (t) {
-              iter += 0.1;
-              processor.handler?.call(iter);
+            print('name = $fileName');
 
-              if ((1 - iter).abs() <= 0.01) {
-                t.cancel();
-                processor.close?.call();
+            var uploadResponse = client.uploadFile(UploadRequest()
+              ..token = token
+              ..file = file.absolute.path
+              ..name = fileName
+              ..upload = UploadRequest_Upload.MULTIPART
+              ..compression = UploadRequest_Compression.NONE
+              ..sheetSize = Int64(10000000));
+
+            uploadResponse.listen((response) {
+              switch (response.status) {
+                case UploadResponse_UploadStatus.PENDING:
+                  print('Pending...');
+                  break;
+                case UploadResponse_UploadStatus.UPLOADING:
+                  print('Uploading ${response.percentage * 100}%');
+                  processor.handler?.call(response.percentage);
+                  break;
+                case UploadResponse_UploadStatus.COMPLETE:
+                  processor.close?.call(1000, 'Success');
+                  break;
               }
-            });
+            }, onError: (e, s) {
+              processor.close?.call(1011, 'An error occurred: $e');
+              return ise('$e', '$s');
+            }, onDone: () => processor.close?.call(1011, 'Incomplete'));
 
             return ok({
               'message': 'Received successfully',
               'processingToken': processingId,
             });
           } catch (e, s) {
-            return ise(e, '$s');
+            return ise('$e', '$s');
           }
+        });
+
+    bindAuthenticated(
+        route: '/delete',
+        handler: (request, token) async {
+          final idString = request.url?.queryParameters['id'] ?? '';
+
+          if (idString == null || idString.isEmpty || idString == 'null') {
+            return bad('Invalid ID');
+          }
+
+          final ids = idString.split(',');
+
+          for (var id in ids) {
+            print('Deleting $id');
+            var response = await client.removeFile(RemoveRequest()
+              ..token = token
+              ..id = id);
+          }
+
+          return ok('Deleted successfully');
         });
 
     router.get('/websocket', authedWebsocket);
@@ -117,7 +161,7 @@ class Service {
     return webSocketHandler((WebSocketChannel webSocket) {
       final sink = webSocket.sink;
       processor.handler = (percentage) => sink.add('$percentage');
-      processor.close = () => webSocket.sink.close();
+      processor.close = (code, reason) => webSocket.sink.close(code, reason);
     })(request);
   }
 
@@ -145,6 +189,10 @@ class Service {
   /// To see [body] docs, see [getBody].
   Response ok(dynamic body) => getBody(200, body);
 
+  /// Returns a [Response] with the code 400 Bad Request.
+  /// To see [body] docs, see [getBody].
+  Response bad(dynamic body) => getBody(400, body);
+
   /// Returns a [Response] with the code 403 Forbidden.
   /// To see [body] docs, see [getBody].
   Response forbidden(dynamic body) => getBody(403, body);
@@ -155,8 +203,11 @@ class Service {
 
   /// Returns a [Response] with the code 500 Internal Server Error.
   /// To see [body] docs, see [getBody].
-  Response ise(String message, String stacktrace) =>
-      getBody(500, {'message': message, 'stacktrace': stacktrace});
+  Response ise(String message, String stacktrace) {
+    print(message);
+    print(stacktrace);
+    return getBody(500, {'message': message, 'stacktrace': stacktrace});
+  }
 
   /// Gets the body, used for [Request]s.
   /// [body] can be either a Map<String, String> which is encoded into a JSON
@@ -209,7 +260,7 @@ class FileProcessor {
   String id;
   String name;
   void Function(double) handler;
-  void Function() close;
+  void Function(int, String) close;
 
   bool get accepting => handler == null;
 
