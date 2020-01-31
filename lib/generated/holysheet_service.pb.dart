@@ -26,6 +26,7 @@ class ListItem extends $pb.GeneratedMessage {
     ..aOB(8, 'selfOwned', protoName: 'selfOwned')
     ..aOS(9, 'owner')
     ..aOS(10, 'driveLink', protoName: 'driveLink')
+    ..aOB(11, 'starred')
     ..hasRequiredFields = false
   ;
 
@@ -133,6 +134,15 @@ class ListItem extends $pb.GeneratedMessage {
   $core.bool hasDriveLink() => $_has(9);
   @$pb.TagNumber(10)
   void clearDriveLink() => clearField(10);
+
+  @$pb.TagNumber(11)
+  $core.bool get starred => $_getBF(10);
+  @$pb.TagNumber(11)
+  set starred($core.bool v) { $_setBool(10, v); }
+  @$pb.TagNumber(11)
+  $core.bool hasStarred() => $_has(10);
+  @$pb.TagNumber(11)
+  void clearStarred() => clearField(11);
 }
 
 class SerializedVariable extends $pb.GeneratedMessage {
@@ -190,6 +200,7 @@ class ListRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
     ..aOS(1, 'token')
     ..aOS(2, 'path')
+    ..aOB(3, 'starred')
     ..hasRequiredFields = false
   ;
 
@@ -225,6 +236,15 @@ class ListRequest extends $pb.GeneratedMessage {
   $core.bool hasPath() => $_has(1);
   @$pb.TagNumber(2)
   void clearPath() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.bool get starred => $_getBF(2);
+  @$pb.TagNumber(3)
+  set starred($core.bool v) { $_setBool(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasStarred() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearStarred() => clearField(3);
 }
 
 class ListResponse extends $pb.GeneratedMessage {
@@ -692,5 +712,77 @@ class ListenCallbacksRequest extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static ListenCallbacksRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListenCallbacksRequest>(create);
   static ListenCallbacksRequest _defaultInstance;
+}
+
+class StarRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('StarRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..aOS(1, 'token')
+    ..aOS(2, 'id')
+    ..aOB(3, 'starred')
+    ..hasRequiredFields = false
+  ;
+
+  StarRequest._() : super();
+  factory StarRequest() => create();
+  factory StarRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory StarRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  StarRequest clone() => StarRequest()..mergeFromMessage(this);
+  StarRequest copyWith(void Function(StarRequest) updates) => super.copyWith((message) => updates(message as StarRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static StarRequest create() => StarRequest._();
+  StarRequest createEmptyInstance() => create();
+  static $pb.PbList<StarRequest> createRepeated() => $pb.PbList<StarRequest>();
+  @$core.pragma('dart2js:noInline')
+  static StarRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<StarRequest>(create);
+  static StarRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get token => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set token($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearToken() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get id => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set id($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.bool get starred => $_getBF(2);
+  @$pb.TagNumber(3)
+  set starred($core.bool v) { $_setBool(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasStarred() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearStarred() => clearField(3);
+}
+
+class StarResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('StarResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  StarResponse._() : super();
+  factory StarResponse() => create();
+  factory StarResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory StarResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  StarResponse clone() => StarResponse()..mergeFromMessage(this);
+  StarResponse copyWith(void Function(StarResponse) updates) => super.copyWith((message) => updates(message as StarResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static StarResponse create() => StarResponse._();
+  StarResponse createEmptyInstance() => create();
+  static $pb.PbList<StarResponse> createRepeated() => $pb.PbList<StarResponse>();
+  @$core.pragma('dart2js:noInline')
+  static StarResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<StarResponse>(create);
+  static StarResponse _defaultInstance;
 }
 

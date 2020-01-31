@@ -39,10 +39,19 @@ class Service {
         route: '/list',
         handler: (request, token) async {
           final path = request.url?.queryParameters['path'] ?? '';
+          final starred =
+              request.url?.queryParameters['starred']?.toLowerCase() == 'true';
 
           var response = await client.listFiles(ListRequest()
             ..token = token
-            ..path = path);
+            ..path = path
+            ..starred = starred);
+
+          print('items = ${response.items}');
+
+          var first = response.items[0];
+          print(first.hasStarred());
+          print(first.starred);
 
           return ok(serialize(response.items));
         });
@@ -124,16 +133,37 @@ class Service {
             return bad('Invalid ID');
           }
 
-          final ids = idString.split(',');
-
-          for (var id in ids) {
-            print('Deleting $id');
-            var response = await client.removeFile(RemoveRequest()
+          for (var id in idString.split(',')) {
+            await client.removeFile(RemoveRequest()
               ..token = token
               ..id = id);
           }
 
           return ok('Deleted successfully');
+        });
+
+    bindAuthenticated(
+        route: '/star',
+        handler: (request, token) async {
+          final idString = request.url?.queryParameters['id'] ?? '';
+          final starred =
+              request.url?.queryParameters['starred']?.toLowerCase() ?? '';
+
+          if ((starred != 'true' && starred != 'false') ||
+              idString == null ||
+              idString.isEmpty ||
+              idString == 'null') {
+            return bad('Invalid parameters');
+          }
+
+          for (var id in idString.split(',')) {
+            await client.starRequest(StarRequest()
+              ..token = token
+              ..id = id
+              ..starred = starred == 'true');
+          }
+
+          return ok('Starred successfully');
         });
 
     router.get('/websocket', authedWebsocket);

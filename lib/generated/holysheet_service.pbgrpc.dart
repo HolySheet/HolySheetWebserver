@@ -47,6 +47,11 @@ class HolySheetServiceClient extends $grpc.Client {
       ($0.ListenCallbacksRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
           $0.CodeExecutionCallbackResponse.fromBuffer(value));
+  static final _$starRequest =
+      $grpc.ClientMethod<$0.StarRequest, $0.StarResponse>(
+          '/com.uddernetworks.grpc.HolySheetService/starRequest',
+          ($0.StarRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $0.StarResponse.fromBuffer(value));
 
   HolySheetServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions options})
@@ -101,6 +106,14 @@ class HolySheetServiceClient extends $grpc.Client {
         options: options);
     return $grpc.ResponseStream(call);
   }
+
+  $grpc.ResponseFuture<$0.StarResponse> starRequest($0.StarRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$starRequest, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
 }
 
 abstract class HolySheetServiceBase extends $grpc.Service {
@@ -153,6 +166,13 @@ abstract class HolySheetServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.ListenCallbacksRequest.fromBuffer(value),
         ($0.CodeExecutionCallbackResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.StarRequest, $0.StarResponse>(
+        'starRequest',
+        starRequest_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.StarRequest.fromBuffer(value),
+        ($0.StarResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.ListResponse> listFiles_Pre(
@@ -187,6 +207,11 @@ abstract class HolySheetServiceBase extends $grpc.Service {
     yield* listenCallbacks(call, await request);
   }
 
+  $async.Future<$0.StarResponse> starRequest_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.StarRequest> request) async {
+    return starRequest(call, await request);
+  }
+
   $async.Future<$0.ListResponse> listFiles(
       $grpc.ServiceCall call, $0.ListRequest request);
   $async.Stream<$0.UploadResponse> uploadFile(
@@ -199,4 +224,6 @@ abstract class HolySheetServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.CodeExecutionRequest request);
   $async.Stream<$0.CodeExecutionCallbackResponse> listenCallbacks(
       $grpc.ServiceCall call, $0.ListenCallbacksRequest request);
+  $async.Future<$0.StarResponse> starRequest(
+      $grpc.ServiceCall call, $0.StarRequest request);
 }

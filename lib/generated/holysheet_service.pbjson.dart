@@ -18,6 +18,7 @@ const ListItem$json = const {
     const {'1': 'selfOwned', '3': 8, '4': 1, '5': 8, '10': 'selfOwned'},
     const {'1': 'owner', '3': 9, '4': 1, '5': 9, '10': 'owner'},
     const {'1': 'driveLink', '3': 10, '4': 1, '5': 9, '10': 'driveLink'},
+    const {'1': 'starred', '3': 11, '4': 1, '5': 8, '10': 'starred'},
   ],
 };
 
@@ -35,6 +36,7 @@ const ListRequest$json = const {
   '2': const [
     const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
     const {'1': 'path', '3': 2, '4': 1, '5': 9, '10': 'path'},
+    const {'1': 'starred', '3': 3, '4': 1, '5': 8, '10': 'starred'},
   ],
 };
 
@@ -174,5 +176,18 @@ const CodeExecutionCallbackResponse$json = const {
 
 const ListenCallbacksRequest$json = const {
   '1': 'ListenCallbacksRequest',
+};
+
+const StarRequest$json = const {
+  '1': 'StarRequest',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'starred', '3': 3, '4': 1, '5': 8, '10': 'starred'},
+  ],
+};
+
+const StarResponse$json = const {
+  '1': 'StarResponse',
 };
 
