@@ -35,6 +35,12 @@ class HolySheetServiceClient extends $grpc.Client {
           '/com.uddernetworks.grpc.HolySheetService/removeFile',
           ($0.RemoveRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.RemoveResponse.fromBuffer(value));
+  static final _$restoreFile =
+      $grpc.ClientMethod<$0.RestoreRequest, $0.RestoreResponse>(
+          '/com.uddernetworks.grpc.HolySheetService/restoreFile',
+          ($0.RestoreRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.RestoreResponse.fromBuffer(value));
   static final _$executeCode =
       $grpc.ClientMethod<$0.CodeExecutionRequest, $0.CodeExecutionResponse>(
           '/com.uddernetworks.grpc.HolySheetService/executeCode',
@@ -81,12 +87,21 @@ class HolySheetServiceClient extends $grpc.Client {
     return $grpc.ResponseStream(call);
   }
 
-  $grpc.ResponseStream<$0.RemoveResponse> removeFile($0.RemoveRequest request,
+  $grpc.ResponseFuture<$0.RemoveResponse> removeFile($0.RemoveRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$removeFile, $async.Stream.fromIterable([request]),
         options: options);
-    return $grpc.ResponseStream(call);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$0.RestoreResponse> restoreFile(
+      $0.RestoreRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$restoreFile, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseFuture<$0.CodeExecutionResponse> executeCode(
@@ -145,9 +160,16 @@ abstract class HolySheetServiceBase extends $grpc.Service {
         'removeFile',
         removeFile_Pre,
         false,
-        true,
+        false,
         ($core.List<$core.int> value) => $0.RemoveRequest.fromBuffer(value),
         ($0.RemoveResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.RestoreRequest, $0.RestoreResponse>(
+        'restoreFile',
+        restoreFile_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.RestoreRequest.fromBuffer(value),
+        ($0.RestoreResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.CodeExecutionRequest, $0.CodeExecutionResponse>(
             'executeCode',
@@ -190,9 +212,14 @@ abstract class HolySheetServiceBase extends $grpc.Service {
     yield* downloadFile(call, await request);
   }
 
-  $async.Stream<$0.RemoveResponse> removeFile_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.RemoveRequest> request) async* {
-    yield* removeFile(call, await request);
+  $async.Future<$0.RemoveResponse> removeFile_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.RemoveRequest> request) async {
+    return removeFile(call, await request);
+  }
+
+  $async.Future<$0.RestoreResponse> restoreFile_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.RestoreRequest> request) async {
+    return restoreFile(call, await request);
   }
 
   $async.Future<$0.CodeExecutionResponse> executeCode_Pre(
@@ -218,8 +245,10 @@ abstract class HolySheetServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.UploadRequest request);
   $async.Stream<$0.DownloadResponse> downloadFile(
       $grpc.ServiceCall call, $0.DownloadRequest request);
-  $async.Stream<$0.RemoveResponse> removeFile(
+  $async.Future<$0.RemoveResponse> removeFile(
       $grpc.ServiceCall call, $0.RemoveRequest request);
+  $async.Future<$0.RestoreResponse> restoreFile(
+      $grpc.ServiceCall call, $0.RestoreRequest request);
   $async.Future<$0.CodeExecutionResponse> executeCode(
       $grpc.ServiceCall call, $0.CodeExecutionRequest request);
   $async.Stream<$0.CodeExecutionCallbackResponse> listenCallbacks(

@@ -201,6 +201,7 @@ class ListRequest extends $pb.GeneratedMessage {
     ..aOS(1, 'token')
     ..aOS(2, 'path')
     ..aOB(3, 'starred')
+    ..aOB(4, 'trashed')
     ..hasRequiredFields = false
   ;
 
@@ -245,6 +246,15 @@ class ListRequest extends $pb.GeneratedMessage {
   $core.bool hasStarred() => $_has(2);
   @$pb.TagNumber(3)
   void clearStarred() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.bool get trashed => $_getBF(3);
+  @$pb.TagNumber(4)
+  set trashed($core.bool v) { $_setBool(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasTrashed() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearTrashed() => clearField(4);
 }
 
 class ListResponse extends $pb.GeneratedMessage {
@@ -512,6 +522,7 @@ class RemoveRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('RemoveRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
     ..aOS(1, 'token')
     ..aOS(2, 'id')
+    ..aOB(3, 'permanent')
     ..hasRequiredFields = false
   ;
 
@@ -547,12 +558,19 @@ class RemoveRequest extends $pb.GeneratedMessage {
   $core.bool hasId() => $_has(1);
   @$pb.TagNumber(2)
   void clearId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.bool get permanent => $_getBF(2);
+  @$pb.TagNumber(3)
+  set permanent($core.bool v) { $_setBool(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasPermanent() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPermanent() => clearField(3);
 }
 
 class RemoveResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('RemoveResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
-    ..e<RemoveResponse_RemoveStatus>(1, 'status', $pb.PbFieldType.OE, defaultOrMaker: RemoveResponse_RemoveStatus.PENDING, valueOf: RemoveResponse_RemoveStatus.valueOf, enumValues: RemoveResponse_RemoveStatus.values)
-    ..a<$core.double>(2, 'percentage', $pb.PbFieldType.OD)
     ..hasRequiredFields = false
   ;
 
@@ -570,24 +588,68 @@ class RemoveResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static RemoveResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RemoveResponse>(create);
   static RemoveResponse _defaultInstance;
+}
+
+class RestoreRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RestoreRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..aOS(1, 'token')
+    ..aOS(2, 'id')
+    ..hasRequiredFields = false
+  ;
+
+  RestoreRequest._() : super();
+  factory RestoreRequest() => create();
+  factory RestoreRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RestoreRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  RestoreRequest clone() => RestoreRequest()..mergeFromMessage(this);
+  RestoreRequest copyWith(void Function(RestoreRequest) updates) => super.copyWith((message) => updates(message as RestoreRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static RestoreRequest create() => RestoreRequest._();
+  RestoreRequest createEmptyInstance() => create();
+  static $pb.PbList<RestoreRequest> createRepeated() => $pb.PbList<RestoreRequest>();
+  @$core.pragma('dart2js:noInline')
+  static RestoreRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RestoreRequest>(create);
+  static RestoreRequest _defaultInstance;
 
   @$pb.TagNumber(1)
-  RemoveResponse_RemoveStatus get status => $_getN(0);
+  $core.String get token => $_getSZ(0);
   @$pb.TagNumber(1)
-  set status(RemoveResponse_RemoveStatus v) { setField(1, v); }
+  set token($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasStatus() => $_has(0);
+  $core.bool hasToken() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStatus() => clearField(1);
+  void clearToken() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.double get percentage => $_getN(1);
+  $core.String get id => $_getSZ(1);
   @$pb.TagNumber(2)
-  set percentage($core.double v) { $_setDouble(1, v); }
+  set id($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasPercentage() => $_has(1);
+  $core.bool hasId() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPercentage() => clearField(2);
+  void clearId() => clearField(2);
+}
+
+class RestoreResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RestoreResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  RestoreResponse._() : super();
+  factory RestoreResponse() => create();
+  factory RestoreResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RestoreResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  RestoreResponse clone() => RestoreResponse()..mergeFromMessage(this);
+  RestoreResponse copyWith(void Function(RestoreResponse) updates) => super.copyWith((message) => updates(message as RestoreResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static RestoreResponse create() => RestoreResponse._();
+  RestoreResponse createEmptyInstance() => create();
+  static $pb.PbList<RestoreResponse> createRepeated() => $pb.PbList<RestoreResponse>();
+  @$core.pragma('dart2js:noInline')
+  static RestoreResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RestoreResponse>(create);
+  static RestoreResponse _defaultInstance;
 }
 
 class CodeExecutionRequest extends $pb.GeneratedMessage {

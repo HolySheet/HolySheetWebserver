@@ -37,15 +37,16 @@ class Service {
   Handler createHandler() {
     bindAuthenticated(
         route: '/list',
-        handler: (request, token) async {
-          final path = request.url?.queryParameters['path'] ?? '';
-          final starred =
-              request.url?.queryParameters['starred']?.toLowerCase() == 'true';
+        handler: (request, token, query) async {
+          final path = query['path'] ?? '';
+          final starred = query['starred']?.toLowerCase() == 'true';
+          final trashed = query['trashed']?.toLowerCase() == 'true';
 
           var response = await client.listFiles(ListRequest()
             ..token = token
             ..path = path
-            ..starred = starred);
+            ..starred = starred
+            ..trashed = trashed);
 
           print('items = ${response.items}');
 
@@ -60,7 +61,7 @@ class Service {
         route: '/upload',
         verb: 'POST',
         chromeWaitBug: true,
-        handler: (request, token) async {
+        handler: (request, token, query) async {
           try {
             var processingId = uuid.v4();
             var header = HeaderValue.parse(request.headers['content-type']);
@@ -126,8 +127,9 @@ class Service {
 
     bindAuthenticated(
         route: '/delete',
-        handler: (request, token) async {
-          final idString = request.url?.queryParameters['id'] ?? '';
+        handler: (request, token, query) async {
+          final idString = query['id'] ?? '';
+          final permanent = (query['permanent'] ?? 'false') == 'true';
 
           if (idString == null || idString.isEmpty || idString == 'null') {
             return bad('Invalid ID');
@@ -136,18 +138,36 @@ class Service {
           for (var id in idString.split(',')) {
             await client.removeFile(RemoveRequest()
               ..token = token
-              ..id = id);
+              ..id = id
+              ..permanent = permanent);
           }
 
           return ok('Deleted successfully');
         });
 
     bindAuthenticated(
+        route: '/restore',
+        handler: (request, token, query) async {
+          final idString = query['id'] ?? '';
+
+          if (idString == null || idString.isEmpty || idString == 'null') {
+            return bad('Invalid ID');
+          }
+
+          for (var id in idString.split(',')) {
+            await client.restoreFile(RestoreRequest()
+              ..token = token
+              ..id = id);
+          }
+
+          return ok('Restored successfully');
+        });
+
+    bindAuthenticated(
         route: '/star',
-        handler: (request, token) async {
-          final idString = request.url?.queryParameters['id'] ?? '';
-          final starred =
-              request.url?.queryParameters['starred']?.toLowerCase() ?? '';
+        handler: (request, token, query) async {
+          final idString = query['id'] ?? '';
+          final starred = query['starred']?.toLowerCase() ?? '';
 
           if ((starred != 'true' && starred != 'false') ||
               idString == null ||
@@ -197,7 +217,7 @@ class Service {
 
   void bindAuthenticated(
       {@required String route,
-      @required Future<Response> Function(Request, String) handler,
+      @required Future<Response> Function(Request, String, Map<String, String>) handler,
       bool chromeWaitBug = false,
       String verb = 'GET'}) {
     router.add(verb, route, (Request request) async {
@@ -211,7 +231,7 @@ class Service {
         return forbidden('Invalid token');
       }
 
-      return await handler(request, token);
+      return await handler(request, token, request.url?.queryParameters ?? {});
     });
   }
 

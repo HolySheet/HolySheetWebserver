@@ -37,6 +37,7 @@ const ListRequest$json = const {
     const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
     const {'1': 'path', '3': 2, '4': 1, '5': 9, '10': 'path'},
     const {'1': 'starred', '3': 3, '4': 1, '5': 8, '10': 'starred'},
+    const {'1': 'trashed', '3': 4, '4': 1, '5': 8, '10': 'trashed'},
   ],
 };
 
@@ -128,25 +129,24 @@ const RemoveRequest$json = const {
   '2': const [
     const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
     const {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'permanent', '3': 3, '4': 1, '5': 8, '10': 'permanent'},
   ],
 };
 
 const RemoveResponse$json = const {
   '1': 'RemoveResponse',
-  '2': const [
-    const {'1': 'status', '3': 1, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.RemoveResponse.RemoveStatus', '10': 'status'},
-    const {'1': 'percentage', '3': 2, '4': 1, '5': 1, '10': 'percentage'},
-  ],
-  '4': const [RemoveResponse_RemoveStatus$json],
 };
 
-const RemoveResponse_RemoveStatus$json = const {
-  '1': 'RemoveStatus',
+const RestoreRequest$json = const {
+  '1': 'RestoreRequest',
   '2': const [
-    const {'1': 'PENDING', '2': 0},
-    const {'1': 'REMOVING', '2': 1},
-    const {'1': 'COMPLETE', '2': 2},
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
   ],
+};
+
+const RestoreResponse$json = const {
+  '1': 'RestoreResponse',
 };
 
 const CodeExecutionRequest$json = const {

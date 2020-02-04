@@ -73,20 +73,3 @@ class DownloadResponse_DownloadStatus extends $pb.ProtobufEnum {
   const DownloadResponse_DownloadStatus._($core.int v, $core.String n) : super(v, n);
 }
 
-class RemoveResponse_RemoveStatus extends $pb.ProtobufEnum {
-  static const RemoveResponse_RemoveStatus PENDING = RemoveResponse_RemoveStatus._(0, 'PENDING');
-  static const RemoveResponse_RemoveStatus REMOVING = RemoveResponse_RemoveStatus._(1, 'REMOVING');
-  static const RemoveResponse_RemoveStatus COMPLETE = RemoveResponse_RemoveStatus._(2, 'COMPLETE');
-
-  static const $core.List<RemoveResponse_RemoveStatus> values = <RemoveResponse_RemoveStatus> [
-    PENDING,
-    REMOVING,
-    COMPLETE,
-  ];
-
-  static final $core.Map<$core.int, RemoveResponse_RemoveStatus> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static RemoveResponse_RemoveStatus valueOf($core.int value) => _byValue[value];
-
-  const RemoveResponse_RemoveStatus._($core.int v, $core.String n) : super(v, n);
-}
-
