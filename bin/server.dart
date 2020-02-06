@@ -48,12 +48,6 @@ class Service {
             ..starred = starred
             ..trashed = trashed);
 
-          print('items = ${response.items}');
-
-          var first = response.items[0];
-          print(first.hasStarred());
-          print(first.starred);
-
           return ok(serialize(response.items));
         });
 
@@ -79,7 +73,7 @@ class Service {
 
             header = HeaderValue.parse(first.headers['content-disposition']);
             var fileName = header.parameters['filename'];
-            print('filename = $fileName ($processingId)');
+            print('Uploading $fileName ($processingId)');
             final file = File('upload\\$processingId');
             var fileSink = file.openWrite();
             await first.pipe(fileSink);
@@ -87,8 +81,6 @@ class Service {
 
             final processor = FileProcessor(processingId, fileName);
             processingFiles.add(processor);
-
-            print('name = $fileName');
 
             var uploadResponse = client.uploadFile(UploadRequest()
               ..token = token

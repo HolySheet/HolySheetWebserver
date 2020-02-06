@@ -19,6 +19,7 @@ const ListItem$json = const {
     const {'1': 'owner', '3': 9, '4': 1, '5': 9, '10': 'owner'},
     const {'1': 'driveLink', '3': 10, '4': 1, '5': 9, '10': 'driveLink'},
     const {'1': 'starred', '3': 11, '4': 1, '5': 8, '10': 'starred'},
+    const {'1': 'trashed', '3': 12, '4': 1, '5': 8, '10': 'trashed'},
   ],
 };
 

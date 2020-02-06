@@ -15,6 +15,7 @@ message ListItem {
     string owner = 9;
     string driveLink = 10;
     bool starred = 11;
+    bool trashed = 12;
 }
 
 // Used in code execution, to hold data of a variable

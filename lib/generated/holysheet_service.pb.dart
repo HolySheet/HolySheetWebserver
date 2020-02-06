@@ -27,6 +27,7 @@ class ListItem extends $pb.GeneratedMessage {
     ..aOS(9, 'owner')
     ..aOS(10, 'driveLink', protoName: 'driveLink')
     ..aOB(11, 'starred')
+    ..aOB(12, 'trashed')
     ..hasRequiredFields = false
   ;
 
@@ -143,6 +144,15 @@ class ListItem extends $pb.GeneratedMessage {
   $core.bool hasStarred() => $_has(10);
   @$pb.TagNumber(11)
   void clearStarred() => clearField(11);
+
+  @$pb.TagNumber(12)
+  $core.bool get trashed => $_getBF(11);
+  @$pb.TagNumber(12)
+  set trashed($core.bool v) { $_setBool(11, v); }
+  @$pb.TagNumber(12)
+  $core.bool hasTrashed() => $_has(11);
+  @$pb.TagNumber(12)
+  void clearTrashed() => clearField(12);
 }
 
 class SerializedVariable extends $pb.GeneratedMessage {
