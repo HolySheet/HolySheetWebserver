@@ -340,7 +340,7 @@ void main() async {
 
   print('Initialized gRPC client');
 
-  final server = await io.serve(service.createHandler(), 'localhost', 8090);
+  final server = await io.serve(service.createHandler(), '0.0.0.0', 8080);
 
   print('Server running on localhost:${server.port}');
 }
