@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:io';
+import 'dart:io';
 
 import 'package:HolySheetWebserver/generated/holysheet_service.pbgrpc.dart';
 import 'package:HolySheetWebserver/grpc_client.dart';
@@ -74,7 +76,7 @@ class Service {
             header = HeaderValue.parse(first.headers['content-disposition']);
             var fileName = header.parameters['filename'];
             print('Uploading $fileName ($processingId)');
-            final file = File('upload\\$processingId');
+            final file = File('${env['PROCESSING_PATH']}${Platform.pathSeparator}$processingId');
             var fileSink = file.openWrite();
             await first.pipe(fileSink);
             await fileSink.close();
@@ -309,21 +311,10 @@ class FileProcessor {
   FileProcessor(this.id, this.name);
 }
 
-final Map<String, String> _headers = {
-  'x-frame-options': 'allow-from http://localhost:8080',
-  'Access-Control-Allow-Origin': 'http://localhost:8080',
-  'Access-Control-Expose-Headers': 'Authorization, Content-Type',
-  'Access-Control-Allow-Headers':
-      'Authorization, Origin, X-Requested-With, Content-Type, Accept',
-  'Access-Control-Allow-Methods': 'GET, POST',
-  'Access-Control-Max-Age': '9999',
-//  'Content-Type': 'application/json',
-};
-
 // for OPTIONS (preflight) requests just add headers and an empty response
+
 Response _options(Request request) =>
     (request.method == 'OPTIONS') ? Response.ok(null, headers: _headers) : null;
-
 Response _cors(Response response) => response.change(headers: _headers);
 
 Middleware _fixCORS =
@@ -331,16 +322,29 @@ Middleware _fixCORS =
 
 int get millsTime => DateTime.now().millisecondsSinceEpoch;
 
+final env = Platform.environment;
+
+Map<String, String> _headers = {
+  'x-frame-options': 'allow-from ${env['ALLOW_ORIGIN']}',
+  'Access-Control-Allow-Origin': env['ALLOW_ORIGIN'],
+  'Access-Control-Expose-Headers': 'Authorization, Content-Type',
+  'Access-Control-Allow-Headers':
+  'Authorization, Origin, X-Requested-With, Content-Type, Accept',
+  'Access-Control-Allow-Methods': 'GET, POST',
+  'Access-Control-Max-Age': '9999',
+//  'Content-Type': 'application/json',
+};
+
 // Run shelf server and host a [Service] instance on port 8080.
 void main() async {
   final service = Service();
   final grpcClient = GRPCClient();
-  await grpcClient.start(8888);
+  await grpcClient.start(int.tryParse(env['GRPC']) ?? 8888);
   service.client = grpcClient.client;
 
   print('Initialized gRPC client');
 
-  final server = await io.serve(service.createHandler(), '0.0.0.0', 8080);
+  final server = await io.serve(service.createHandler(), '0.0.0.0', int.tryParse(env['PORT']) ?? 80);
 
   print('Server running on localhost:${server.port}');
 }

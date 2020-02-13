@@ -15,5 +15,4 @@ class GRPCClient {
     client = HolySheetServiceClient(channel,
         options: CallOptions(timeout: Duration(seconds: 10)));
   }
-
 }
