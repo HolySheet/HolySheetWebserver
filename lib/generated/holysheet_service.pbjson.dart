@@ -112,6 +112,7 @@ const DownloadResponse$json = const {
   '2': const [
     const {'1': 'status', '3': 1, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.DownloadResponse.DownloadStatus', '10': 'status'},
     const {'1': 'percentage', '3': 2, '4': 1, '5': 1, '10': 'percentage'},
+    const {'1': 'item', '3': 3, '4': 1, '5': 11, '6': '.com.uddernetworks.grpc.ListItem', '10': 'item'},
   ],
   '4': const [DownloadResponse_DownloadStatus$json],
 };

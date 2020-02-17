@@ -491,6 +491,7 @@ class DownloadResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('DownloadResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
     ..e<DownloadResponse_DownloadStatus>(1, 'status', $pb.PbFieldType.OE, defaultOrMaker: DownloadResponse_DownloadStatus.PENDING, valueOf: DownloadResponse_DownloadStatus.valueOf, enumValues: DownloadResponse_DownloadStatus.values)
     ..a<$core.double>(2, 'percentage', $pb.PbFieldType.OD)
+    ..aOM<ListItem>(3, 'item', subBuilder: ListItem.create)
     ..hasRequiredFields = false
   ;
 
@@ -526,6 +527,17 @@ class DownloadResponse extends $pb.GeneratedMessage {
   $core.bool hasPercentage() => $_has(1);
   @$pb.TagNumber(2)
   void clearPercentage() => clearField(2);
+
+  @$pb.TagNumber(3)
+  ListItem get item => $_getN(2);
+  @$pb.TagNumber(3)
+  set item(ListItem v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasItem() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearItem() => clearField(3);
+  @$pb.TagNumber(3)
+  ListItem ensureItem() => $_ensure(2);
 }
 
 class RemoveRequest extends $pb.GeneratedMessage {

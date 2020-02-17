@@ -9,6 +9,7 @@ import 'package:HolySheetWebserver/generated/holysheet_service.pbgrpc.dart';
 import 'package:HolySheetWebserver/grpc_client.dart';
 import 'package:HolySheetWebserver/serializer.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:grpc/grpc.dart' as grpc;
 import 'package:meta/meta.dart';
 import 'package:mime/mime.dart';
 import 'package:shelf/shelf.dart';
@@ -76,7 +77,8 @@ class Service {
             header = HeaderValue.parse(first.headers['content-disposition']);
             var fileName = header.parameters['filename'];
             print('Uploading $fileName ($processingId)');
-            final file = File('${env['PROCESSING_PATH']}${Platform.pathSeparator}$processingId');
+            final file = File(
+                '${env['PROCESSING_PATH']}${Platform.pathSeparator}$processingId');
             var fileSink = file.openWrite();
             await first.pipe(fileSink);
             await fileSink.close();
@@ -84,13 +86,15 @@ class Service {
             final processor = FileProcessor(processingId, fileName);
             processingFiles.add(processor);
 
-            var uploadResponse = client.uploadFile(UploadRequest()
-              ..token = token
-              ..file = file.absolute.path
-              ..name = fileName
-              ..upload = UploadRequest_Upload.MULTIPART
-              ..compression = UploadRequest_Compression.NONE
-              ..sheetSize = Int64(10000000));
+            var uploadResponse = client
+                .uploadFile(UploadRequest()
+                  ..token = token
+                  ..file = file.absolute.path
+                  ..name = fileName
+                  ..upload = UploadRequest_Upload.MULTIPART
+                  ..compression = UploadRequest_Compression.NONE
+                  ..sheetSize = Int64(10000000))
+                .printErrors();
 
             uploadResponse.listen((response) {
               switch (response.status) {
@@ -120,6 +124,34 @@ class Service {
         });
 
     bindAuthenticated(
+        route: '/download',
+        authMethod: AuthMethod.Query,
+        handler: (request, token, query) async {
+          final id = query['id'] ?? '';
+
+          if (id == null || id.isEmpty || id == 'null' || id.contains(',')) {
+            return bad('Invalid ID');
+          }
+
+          final downloadId = uuid.v4();
+          final file = File(
+              '${env['PROCESSING_PATH']}${Platform.pathSeparator}$downloadId');
+
+          final downloaded = await processStream<ListItem, DownloadResponse>(
+              await client
+                  .downloadFile(DownloadRequest()
+                    ..token = token
+                    ..id = id
+                    ..path = file.absolute.path)
+                  .printErrors(), (data) {
+            print('Downloading ${data.percentage}%');
+            return data.status == DownloadResponse_DownloadStatus.COMPLETE;
+          }, (data) => data.item);
+
+          return serveFile(request, downloaded.name, file);
+        });
+
+    bindAuthenticated(
         route: '/delete',
         handler: (request, token, query) async {
           final idString = query['id'] ?? '';
@@ -130,10 +162,12 @@ class Service {
           }
 
           for (var id in idString.split(',')) {
-            await client.removeFile(RemoveRequest()
-              ..token = token
-              ..id = id
-              ..permanent = permanent);
+            await client
+                .removeFile(RemoveRequest()
+                  ..token = token
+                  ..id = id
+                  ..permanent = permanent)
+                .printErrors();
           }
 
           return ok('Deleted successfully');
@@ -149,9 +183,11 @@ class Service {
           }
 
           for (var id in idString.split(',')) {
-            await client.restoreFile(RestoreRequest()
-              ..token = token
-              ..id = id);
+            await client
+                .restoreFile(RestoreRequest()
+                  ..token = token
+                  ..id = id)
+                .printErrors();
           }
 
           return ok('Restored successfully');
@@ -171,10 +207,12 @@ class Service {
           }
 
           for (var id in idString.split(',')) {
-            await client.starRequest(StarRequest()
-              ..token = token
-              ..id = id
-              ..starred = starred == 'true');
+            await client
+                .starRequest(StarRequest()
+                  ..token = token
+                  ..id = id
+                  ..starred = starred == 'true')
+                .printErrors();
           }
 
           return ok('Starred successfully');
@@ -210,23 +248,48 @@ class Service {
   }
 
   void bindAuthenticated(
-      {@required String route,
-      @required Future<Response> Function(Request, String, Map<String, String>) handler,
-      bool chromeWaitBug = false,
-      String verb = 'GET'}) {
-    router.add(verb, route, (Request request) async {
-      final token = request.headers['Authorization'];
+          {@required
+              String route,
+          @required
+              Future<Response> Function(Request, String, Map<String, String>)
+                  handler,
+          bool chromeWaitBug = false,
+          String verb = 'GET',
+          AuthMethod authMethod = AuthMethod.Header}) =>
+      router.add(verb, route, (Request request) async {
+        final token = ({
+          AuthMethod.Header: () => request.headers['Authorization'],
+          AuthMethod.Query: () => request.url.queryParameters['Authorization'],
+        })[authMethod]();
 
-      if (token == null) {
-        return forbidden('Invalid token');
-      }
+        if (token == null) {
+          return forbidden('No token found');
+        }
 
-      if (!await verifyToken(token)) {
-        return forbidden('Invalid token');
-      }
+        if (!await verifyToken(token)) {
+          return forbidden('Invalid checked token');
+        }
 
-      return await handler(request, token, request.url?.queryParameters ?? {});
-    });
+        return await handler(
+            request, token, request.url?.queryParameters ?? {});
+      });
+
+  Future<Response> serveFile(Request request, String name, File file,
+      [String contentType]) async {
+    var stat = file.statSync();
+
+    var headers = {
+      HttpHeaders.contentLengthHeader: stat.size.toString(),
+      'Content-Disposition': 'attachment; filename="$name"'
+    };
+
+    try {
+      print('Sending response...');
+      return Response.ok(file.openRead(), headers: headers);
+    } finally {
+      print('Done with response, deleting file...');
+      await file.delete();
+    }
   }
 
   /// Returns a [Response] with the code 200 Okay.
@@ -262,6 +325,27 @@ class Service {
       body = {defaultKey: body ?? 'Unknown message'};
     }
     return Response(code, body: jsonEncode(body));
+  }
+
+  /// Processes a stream [stream], until [breakOut] returns true, being compared
+  /// with elements in the stream via [listen]. Once completed, [finResult] will
+  /// be invoked with the last element and returned.
+  Future<R> processStream<R, I>(Stream<I> stream,
+      bool Function(I input) breakOut, R Function(I input) finResult) async {
+    final completer = Completer<R>();
+
+    StreamSubscription<I> sub;
+    sub = stream.listen((i) {
+      if (breakOut(i)) {
+        sub.cancel();
+        completer.complete(finResult(i));
+      }
+    });
+
+    sub.onError((error) => completer
+        .completeError('Ane error occurred during processing: $error'));
+
+    return completer.future;
   }
 
   /// Decodes post values
@@ -311,10 +395,29 @@ class FileProcessor {
   FileProcessor(this.id, this.name);
 }
 
+enum AuthMethod { Header, Query }
+
+extension ErrorStreamCatcher<T> on grpc.ResponseStream<T> {
+  grpc.ResponseStream<T> printErrors() {
+    handleError((error, stack) => print(
+        'An error has occurred during a gRPC request stream. Error:\n$error\nStack:\n$stack'));
+    return this;
+  }
+}
+
+extension ErrorFutureCatcher<T> on grpc.ResponseFuture<T> {
+  grpc.ResponseFuture<T> printErrors() {
+    catchError((error, stack) => print(
+        'An error has occurred during a gRPC request future. Error:\n$error\nStack:\n$stack'));
+    return this;
+  }
+}
+
 // for OPTIONS (preflight) requests just add headers and an empty response
 
 Response _options(Request request) =>
     (request.method == 'OPTIONS') ? Response.ok(null, headers: _headers) : null;
+
 Response _cors(Response response) => response.change(headers: _headers);
 
 Middleware _fixCORS =
@@ -329,7 +432,7 @@ Map<String, String> _headers = {
   'Access-Control-Allow-Origin': env['ALLOW_ORIGIN'],
   'Access-Control-Expose-Headers': 'Authorization, Content-Type',
   'Access-Control-Allow-Headers':
-  'Authorization, Origin, X-Requested-With, Content-Type, Accept',
+      'Authorization, Origin, X-Requested-With, Content-Type, Accept',
   'Access-Control-Allow-Methods': 'GET, POST',
   'Access-Control-Max-Age': '9999',
 //  'Content-Type': 'application/json',
@@ -339,12 +442,13 @@ Map<String, String> _headers = {
 void main() async {
   final service = Service();
   final grpcClient = GRPCClient();
-  await grpcClient.start(int.tryParse(env['GRPC']) ?? 8888);
+  await grpcClient.start(int.tryParse('${env['GRPC']}') ?? 8888);
   service.client = grpcClient.client;
 
   print('Initialized gRPC client');
 
-  final server = await io.serve(service.createHandler(), '0.0.0.0', int.tryParse(env['PORT']) ?? 80);
+  final server = await io.serve(
+      service.createHandler(), '0.0.0.0', int.tryParse('${env['PORT']}') ?? 80);
 
   print('Server running on localhost:${server.port}');
 }
