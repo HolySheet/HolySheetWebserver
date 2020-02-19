@@ -193,3 +193,16 @@ const StarResponse$json = const {
   '1': 'StarResponse',
 };
 
+const MoveFileRequest$json = const {
+  '1': 'MoveFileRequest',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'path', '3': 3, '4': 1, '5': 9, '10': 'path'},
+  ],
+};
+
+const MoveFileResponse$json = const {
+  '1': 'MoveFileResponse',
+};
+

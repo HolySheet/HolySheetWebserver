@@ -870,3 +870,75 @@ class StarResponse extends $pb.GeneratedMessage {
   static StarResponse _defaultInstance;
 }
 
+class MoveFileRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MoveFileRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..aOS(1, 'token')
+    ..aOS(2, 'id')
+    ..aOS(3, 'path')
+    ..hasRequiredFields = false
+  ;
+
+  MoveFileRequest._() : super();
+  factory MoveFileRequest() => create();
+  factory MoveFileRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory MoveFileRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  MoveFileRequest clone() => MoveFileRequest()..mergeFromMessage(this);
+  MoveFileRequest copyWith(void Function(MoveFileRequest) updates) => super.copyWith((message) => updates(message as MoveFileRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static MoveFileRequest create() => MoveFileRequest._();
+  MoveFileRequest createEmptyInstance() => create();
+  static $pb.PbList<MoveFileRequest> createRepeated() => $pb.PbList<MoveFileRequest>();
+  @$core.pragma('dart2js:noInline')
+  static MoveFileRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoveFileRequest>(create);
+  static MoveFileRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get token => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set token($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearToken() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get id => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set id($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get path => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set path($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasPath() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPath() => clearField(3);
+}
+
+class MoveFileResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MoveFileResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  MoveFileResponse._() : super();
+  factory MoveFileResponse() => create();
+  factory MoveFileResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory MoveFileResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  MoveFileResponse clone() => MoveFileResponse()..mergeFromMessage(this);
+  MoveFileResponse copyWith(void Function(MoveFileResponse) updates) => super.copyWith((message) => updates(message as MoveFileResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static MoveFileResponse create() => MoveFileResponse._();
+  MoveFileResponse createEmptyInstance() => create();
+  static $pb.PbList<MoveFileResponse> createRepeated() => $pb.PbList<MoveFileResponse>();
+  @$core.pragma('dart2js:noInline')
+  static MoveFileResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MoveFileResponse>(create);
+  static MoveFileResponse _defaultInstance;
+}
+

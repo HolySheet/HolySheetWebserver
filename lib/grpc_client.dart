@@ -13,6 +13,6 @@ class GRPCClient {
         options:
         const ChannelOptions(credentials: ChannelCredentials.insecure()));
     client = HolySheetServiceClient(channel,
-        options: CallOptions(timeout: Duration(seconds: 10)));
+        options: CallOptions(timeout: Duration(minutes: 10))); // Timeout high as it is the max time between processing updates
   }
 }

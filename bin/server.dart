@@ -136,6 +136,7 @@ class Service {
           final downloadId = uuid.v4();
           final file = File(
               '${env['PROCESSING_PATH']}${Platform.pathSeparator}$downloadId');
+          print('downloading with ID: $file');
 
           final downloaded = await processStream<ListItem, DownloadResponse>(
               await client
@@ -144,9 +145,11 @@ class Service {
                     ..id = id
                     ..path = file.absolute.path)
                   .printErrors(), (data) {
-            print('Downloading ${data.percentage}%');
+            print('Downloading ${data.percentage * 100}%');
             return data.status == DownloadResponse_DownloadStatus.COMPLETE;
           }, (data) => data.item);
+
+          print('serving $file');
 
           return serveFile(request, downloaded.name, file);
         });
@@ -200,9 +203,7 @@ class Service {
           final starred = query['starred']?.toLowerCase() ?? '';
 
           if ((starred != 'true' && starred != 'false') ||
-              idString == null ||
-              idString.isEmpty ||
-              idString == 'null') {
+              !isValidParam(idString)) {
             return bad('Invalid parameters');
           }
 
@@ -216,6 +217,28 @@ class Service {
           }
 
           return ok('Starred successfully');
+        });
+
+    bindAuthenticated(
+        route: '/move',
+        handler: (request, token, query) async {
+          final idString = query['id'] ?? '';
+          final path = query['path'] ?? '';
+
+          if (!isValidParam(idString) || !isValidParam(path)) {
+            return bad('Invalid parameters');
+          }
+
+          for (var id in idString.split(',')) {
+            await client
+                .moveFile(MoveFileRequest()
+                  ..token = token
+                  ..id = id
+                  ..path = path)
+                .printErrors();
+          }
+
+          return ok('Moved successfully');
         });
 
     router.get('/websocket', authedWebsocket);
@@ -355,6 +378,9 @@ class Service {
             kv.split('=').map((str) => Uri.decodeComponent(str)).toList();
         return MapEntry(split[0], split[1]);
       }).toList());
+
+  bool isValidParam(String param) =>
+      param != null && param != 'null' && param.isNotEmpty;
 
   Future<bool> verifyToken(String accessToken) async {
     try {
