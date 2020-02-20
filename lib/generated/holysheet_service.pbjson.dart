@@ -53,12 +53,13 @@ const UploadRequest$json = const {
   '1': 'UploadRequest',
   '2': const [
     const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
-    const {'1': 'file', '3': 2, '4': 1, '5': 9, '10': 'file'},
     const {'1': 'name', '3': 3, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'id', '3': 4, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'upload', '3': 5, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.UploadRequest.Upload', '10': 'upload'},
     const {'1': 'compression', '3': 6, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.UploadRequest.Compression', '10': 'compression'},
     const {'1': 'sheetSize', '3': 7, '4': 1, '5': 3, '10': 'sheetSize'},
+    const {'1': 'fileSize', '3': 8, '4': 1, '5': 3, '10': 'fileSize'},
+    const {'1': 'processingId', '3': 9, '4': 1, '5': 9, '10': 'processingId'},
   ],
   '4': const [UploadRequest_Upload$json, UploadRequest_Compression$json],
 };
@@ -95,6 +96,32 @@ const UploadResponse_UploadStatus$json = const {
     const {'1': 'PENDING', '2': 0},
     const {'1': 'UPLOADING', '2': 1},
     const {'1': 'COMPLETE', '2': 2},
+  ],
+};
+
+const FileChunk$json = const {
+  '1': 'FileChunk',
+  '2': const [
+    const {'1': 'processingId', '3': 1, '4': 1, '5': 9, '10': 'processingId'},
+    const {'1': 'content', '3': 2, '4': 1, '5': 12, '10': 'content'},
+    const {'1': 'status', '3': 3, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.FileChunk.ChunkStatus', '10': 'status'},
+  ],
+  '4': const [FileChunk_ChunkStatus$json],
+};
+
+const FileChunk_ChunkStatus$json = const {
+  '1': 'ChunkStatus',
+  '2': const [
+    const {'1': 'Normal', '2': 0},
+    const {'1': 'Complete', '2': 1},
+    const {'1': 'Terminated', '2': 2},
+  ],
+};
+
+const ChunkResponse$json = const {
+  '1': 'ChunkResponse',
+  '2': const [
+    const {'1': 'currentBuffer', '3': 1, '4': 1, '5': 3, '10': 'currentBuffer'},
   ],
 };
 

@@ -295,12 +295,13 @@ class ListResponse extends $pb.GeneratedMessage {
 class UploadRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('UploadRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
     ..aOS(1, 'token')
-    ..aOS(2, 'file')
     ..aOS(3, 'name')
     ..aOS(4, 'id')
     ..e<UploadRequest_Upload>(5, 'upload', $pb.PbFieldType.OE, defaultOrMaker: UploadRequest_Upload.MULTIPART, valueOf: UploadRequest_Upload.valueOf, enumValues: UploadRequest_Upload.values)
     ..e<UploadRequest_Compression>(6, 'compression', $pb.PbFieldType.OE, defaultOrMaker: UploadRequest_Compression.NONE, valueOf: UploadRequest_Compression.valueOf, enumValues: UploadRequest_Compression.values)
     ..aInt64(7, 'sheetSize', protoName: 'sheetSize')
+    ..aInt64(8, 'fileSize', protoName: 'fileSize')
+    ..aOS(9, 'processingId', protoName: 'processingId')
     ..hasRequiredFields = false
   ;
 
@@ -328,59 +329,68 @@ class UploadRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearToken() => clearField(1);
 
-  @$pb.TagNumber(2)
-  $core.String get file => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set file($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasFile() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearFile() => clearField(2);
-
   @$pb.TagNumber(3)
-  $core.String get name => $_getSZ(2);
+  $core.String get name => $_getSZ(1);
   @$pb.TagNumber(3)
-  set name($core.String v) { $_setString(2, v); }
+  set name($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(3)
-  $core.bool hasName() => $_has(2);
+  $core.bool hasName() => $_has(1);
   @$pb.TagNumber(3)
   void clearName() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get id => $_getSZ(3);
+  $core.String get id => $_getSZ(2);
   @$pb.TagNumber(4)
-  set id($core.String v) { $_setString(3, v); }
+  set id($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(4)
-  $core.bool hasId() => $_has(3);
+  $core.bool hasId() => $_has(2);
   @$pb.TagNumber(4)
   void clearId() => clearField(4);
 
   @$pb.TagNumber(5)
-  UploadRequest_Upload get upload => $_getN(4);
+  UploadRequest_Upload get upload => $_getN(3);
   @$pb.TagNumber(5)
   set upload(UploadRequest_Upload v) { setField(5, v); }
   @$pb.TagNumber(5)
-  $core.bool hasUpload() => $_has(4);
+  $core.bool hasUpload() => $_has(3);
   @$pb.TagNumber(5)
   void clearUpload() => clearField(5);
 
   @$pb.TagNumber(6)
-  UploadRequest_Compression get compression => $_getN(5);
+  UploadRequest_Compression get compression => $_getN(4);
   @$pb.TagNumber(6)
   set compression(UploadRequest_Compression v) { setField(6, v); }
   @$pb.TagNumber(6)
-  $core.bool hasCompression() => $_has(5);
+  $core.bool hasCompression() => $_has(4);
   @$pb.TagNumber(6)
   void clearCompression() => clearField(6);
 
   @$pb.TagNumber(7)
-  $fixnum.Int64 get sheetSize => $_getI64(6);
+  $fixnum.Int64 get sheetSize => $_getI64(5);
   @$pb.TagNumber(7)
-  set sheetSize($fixnum.Int64 v) { $_setInt64(6, v); }
+  set sheetSize($fixnum.Int64 v) { $_setInt64(5, v); }
   @$pb.TagNumber(7)
-  $core.bool hasSheetSize() => $_has(6);
+  $core.bool hasSheetSize() => $_has(5);
   @$pb.TagNumber(7)
   void clearSheetSize() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $fixnum.Int64 get fileSize => $_getI64(6);
+  @$pb.TagNumber(8)
+  set fileSize($fixnum.Int64 v) { $_setInt64(6, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasFileSize() => $_has(6);
+  @$pb.TagNumber(8)
+  void clearFileSize() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get processingId => $_getSZ(7);
+  @$pb.TagNumber(9)
+  set processingId($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasProcessingId() => $_has(7);
+  @$pb.TagNumber(9)
+  void clearProcessingId() => clearField(9);
 }
 
 class UploadResponse extends $pb.GeneratedMessage {
@@ -434,6 +444,88 @@ class UploadResponse extends $pb.GeneratedMessage {
   void clearItem() => clearField(3);
   @$pb.TagNumber(3)
   ListItem ensureItem() => $_ensure(2);
+}
+
+class FileChunk extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileChunk', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..aOS(1, 'processingId', protoName: 'processingId')
+    ..a<$core.List<$core.int>>(2, 'content', $pb.PbFieldType.OY)
+    ..e<FileChunk_ChunkStatus>(3, 'status', $pb.PbFieldType.OE, defaultOrMaker: FileChunk_ChunkStatus.Normal, valueOf: FileChunk_ChunkStatus.valueOf, enumValues: FileChunk_ChunkStatus.values)
+    ..hasRequiredFields = false
+  ;
+
+  FileChunk._() : super();
+  factory FileChunk() => create();
+  factory FileChunk.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FileChunk.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  FileChunk clone() => FileChunk()..mergeFromMessage(this);
+  FileChunk copyWith(void Function(FileChunk) updates) => super.copyWith((message) => updates(message as FileChunk));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FileChunk create() => FileChunk._();
+  FileChunk createEmptyInstance() => create();
+  static $pb.PbList<FileChunk> createRepeated() => $pb.PbList<FileChunk>();
+  @$core.pragma('dart2js:noInline')
+  static FileChunk getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FileChunk>(create);
+  static FileChunk _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get processingId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set processingId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasProcessingId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearProcessingId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.List<$core.int> get content => $_getN(1);
+  @$pb.TagNumber(2)
+  set content($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasContent() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearContent() => clearField(2);
+
+  @$pb.TagNumber(3)
+  FileChunk_ChunkStatus get status => $_getN(2);
+  @$pb.TagNumber(3)
+  set status(FileChunk_ChunkStatus v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasStatus() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearStatus() => clearField(3);
+}
+
+class ChunkResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ChunkResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..aInt64(1, 'currentBuffer', protoName: 'currentBuffer')
+    ..hasRequiredFields = false
+  ;
+
+  ChunkResponse._() : super();
+  factory ChunkResponse() => create();
+  factory ChunkResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ChunkResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ChunkResponse clone() => ChunkResponse()..mergeFromMessage(this);
+  ChunkResponse copyWith(void Function(ChunkResponse) updates) => super.copyWith((message) => updates(message as ChunkResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ChunkResponse create() => ChunkResponse._();
+  ChunkResponse createEmptyInstance() => create();
+  static $pb.PbList<ChunkResponse> createRepeated() => $pb.PbList<ChunkResponse>();
+  @$core.pragma('dart2js:noInline')
+  static ChunkResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChunkResponse>(create);
+  static ChunkResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get currentBuffer => $_getI64(0);
+  @$pb.TagNumber(1)
+  set currentBuffer($fixnum.Int64 v) { $_setInt64(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasCurrentBuffer() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearCurrentBuffer() => clearField(1);
 }
 
 class DownloadRequest extends $pb.GeneratedMessage {

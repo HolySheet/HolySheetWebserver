@@ -56,6 +56,23 @@ class UploadResponse_UploadStatus extends $pb.ProtobufEnum {
   const UploadResponse_UploadStatus._($core.int v, $core.String n) : super(v, n);
 }
 
+class FileChunk_ChunkStatus extends $pb.ProtobufEnum {
+  static const FileChunk_ChunkStatus Normal = FileChunk_ChunkStatus._(0, 'Normal');
+  static const FileChunk_ChunkStatus Complete = FileChunk_ChunkStatus._(1, 'Complete');
+  static const FileChunk_ChunkStatus Terminated = FileChunk_ChunkStatus._(2, 'Terminated');
+
+  static const $core.List<FileChunk_ChunkStatus> values = <FileChunk_ChunkStatus> [
+    Normal,
+    Complete,
+    Terminated,
+  ];
+
+  static final $core.Map<$core.int, FileChunk_ChunkStatus> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static FileChunk_ChunkStatus valueOf($core.int value) => _byValue[value];
+
+  const FileChunk_ChunkStatus._($core.int v, $core.String n) : super(v, n);
+}
+
 class DownloadResponse_DownloadStatus extends $pb.ProtobufEnum {
   static const DownloadResponse_DownloadStatus PENDING = DownloadResponse_DownloadStatus._(0, 'PENDING');
   static const DownloadResponse_DownloadStatus DOWNLOADING = DownloadResponse_DownloadStatus._(1, 'DOWNLOADING');

@@ -24,6 +24,10 @@ class HolySheetServiceClient extends $grpc.Client {
           '/com.uddernetworks.grpc.HolySheetService/uploadFile',
           ($0.UploadRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.UploadResponse.fromBuffer(value));
+  static final _$sendFile = $grpc.ClientMethod<$0.FileChunk, $0.ChunkResponse>(
+      '/com.uddernetworks.grpc.HolySheetService/sendFile',
+      ($0.FileChunk value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ChunkResponse.fromBuffer(value));
   static final _$downloadFile =
       $grpc.ClientMethod<$0.DownloadRequest, $0.DownloadResponse>(
           '/com.uddernetworks.grpc.HolySheetService/downloadFile',
@@ -81,6 +85,13 @@ class HolySheetServiceClient extends $grpc.Client {
     final call = $createCall(
         _$uploadFile, $async.Stream.fromIterable([request]),
         options: options);
+    return $grpc.ResponseStream(call);
+  }
+
+  $grpc.ResponseStream<$0.ChunkResponse> sendFile(
+      $async.Stream<$0.FileChunk> request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$sendFile, request, options: options);
     return $grpc.ResponseStream(call);
   }
 
@@ -162,6 +173,13 @@ abstract class HolySheetServiceBase extends $grpc.Service {
         true,
         ($core.List<$core.int> value) => $0.UploadRequest.fromBuffer(value),
         ($0.UploadResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.FileChunk, $0.ChunkResponse>(
+        'sendFile',
+        sendFile,
+        true,
+        true,
+        ($core.List<$core.int> value) => $0.FileChunk.fromBuffer(value),
+        ($0.ChunkResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.DownloadRequest, $0.DownloadResponse>(
         'downloadFile',
         downloadFile_Pre,
@@ -268,6 +286,8 @@ abstract class HolySheetServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.ListRequest request);
   $async.Stream<$0.UploadResponse> uploadFile(
       $grpc.ServiceCall call, $0.UploadRequest request);
+  $async.Stream<$0.ChunkResponse> sendFile(
+      $grpc.ServiceCall call, $async.Stream<$0.FileChunk> request);
   $async.Stream<$0.DownloadResponse> downloadFile(
       $grpc.ServiceCall call, $0.DownloadRequest request);
   $async.Future<$0.RemoveResponse> removeFile(
