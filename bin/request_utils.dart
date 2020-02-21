@@ -146,3 +146,5 @@ extension ErrorFutureCatcher<T> on grpc.ResponseFuture<T> {
     return this;
   }
 }
+
+String json(Map<String, dynamic> json) => jsonEncode(json);

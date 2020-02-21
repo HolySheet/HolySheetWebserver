@@ -60,14 +60,12 @@ message UploadRequest {
 }
 
 message UploadResponse {
-    UploadStatus status = 1; // The upload status
-    double percentage = 2; // The 0-1 percentage of the upload
-    ListItem item = 3; // The new ListItem uploaded. This populated if the status is COMPLETE.
+    UploadStatus uploadStatus = 1;
+    ListItem item = 2; // The new ListItem uploaded. This populated if the status is COMPLETE.
 
     enum UploadStatus {
-        PENDING = 0;
-        UPLOADING = 1;
-        COMPLETE = 2;
+        READY = 0;
+        COMPLETE = 1;
     }
 }
 
@@ -170,6 +168,7 @@ service HolySheetService {
 
     // Starts the upload of a file. This essentially creates a virtual "processor" as the given processing ID, and as
     // "FileChunk"s (via sendFile()) come in, the data is processed and uploaded accordingly to avoid any file IO server-side.
+    // A response is sent when the sendFile() method is complete.
     rpc uploadFile(UploadRequest) returns (stream UploadResponse);
 
     // Sends a file data stream to be processed to avoid filesystem IO

@@ -83,9 +83,8 @@ const UploadRequest_Compression$json = const {
 const UploadResponse$json = const {
   '1': 'UploadResponse',
   '2': const [
-    const {'1': 'status', '3': 1, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.UploadResponse.UploadStatus', '10': 'status'},
-    const {'1': 'percentage', '3': 2, '4': 1, '5': 1, '10': 'percentage'},
-    const {'1': 'item', '3': 3, '4': 1, '5': 11, '6': '.com.uddernetworks.grpc.ListItem', '10': 'item'},
+    const {'1': 'uploadStatus', '3': 1, '4': 1, '5': 14, '6': '.com.uddernetworks.grpc.UploadResponse.UploadStatus', '10': 'uploadStatus'},
+    const {'1': 'item', '3': 2, '4': 1, '5': 11, '6': '.com.uddernetworks.grpc.ListItem', '10': 'item'},
   ],
   '4': const [UploadResponse_UploadStatus$json],
 };
@@ -93,9 +92,8 @@ const UploadResponse$json = const {
 const UploadResponse_UploadStatus$json = const {
   '1': 'UploadStatus',
   '2': const [
-    const {'1': 'PENDING', '2': 0},
-    const {'1': 'UPLOADING', '2': 1},
-    const {'1': 'COMPLETE', '2': 2},
+    const {'1': 'READY', '2': 0},
+    const {'1': 'COMPLETE', '2': 1},
   ],
 };
 

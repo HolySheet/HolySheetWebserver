@@ -395,9 +395,8 @@ class UploadRequest extends $pb.GeneratedMessage {
 
 class UploadResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('UploadResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
-    ..e<UploadResponse_UploadStatus>(1, 'status', $pb.PbFieldType.OE, defaultOrMaker: UploadResponse_UploadStatus.PENDING, valueOf: UploadResponse_UploadStatus.valueOf, enumValues: UploadResponse_UploadStatus.values)
-    ..a<$core.double>(2, 'percentage', $pb.PbFieldType.OD)
-    ..aOM<ListItem>(3, 'item', subBuilder: ListItem.create)
+    ..e<UploadResponse_UploadStatus>(1, 'uploadStatus', $pb.PbFieldType.OE, protoName: 'uploadStatus', defaultOrMaker: UploadResponse_UploadStatus.READY, valueOf: UploadResponse_UploadStatus.valueOf, enumValues: UploadResponse_UploadStatus.values)
+    ..aOM<ListItem>(2, 'item', subBuilder: ListItem.create)
     ..hasRequiredFields = false
   ;
 
@@ -417,33 +416,24 @@ class UploadResponse extends $pb.GeneratedMessage {
   static UploadResponse _defaultInstance;
 
   @$pb.TagNumber(1)
-  UploadResponse_UploadStatus get status => $_getN(0);
+  UploadResponse_UploadStatus get uploadStatus => $_getN(0);
   @$pb.TagNumber(1)
-  set status(UploadResponse_UploadStatus v) { setField(1, v); }
+  set uploadStatus(UploadResponse_UploadStatus v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasStatus() => $_has(0);
+  $core.bool hasUploadStatus() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStatus() => clearField(1);
+  void clearUploadStatus() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.double get percentage => $_getN(1);
+  ListItem get item => $_getN(1);
   @$pb.TagNumber(2)
-  set percentage($core.double v) { $_setDouble(1, v); }
+  set item(ListItem v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasPercentage() => $_has(1);
+  $core.bool hasItem() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPercentage() => clearField(2);
-
-  @$pb.TagNumber(3)
-  ListItem get item => $_getN(2);
-  @$pb.TagNumber(3)
-  set item(ListItem v) { setField(3, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasItem() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearItem() => clearField(3);
-  @$pb.TagNumber(3)
-  ListItem ensureItem() => $_ensure(2);
+  void clearItem() => clearField(2);
+  @$pb.TagNumber(2)
+  ListItem ensureItem() => $_ensure(1);
 }
 
 class FileChunk extends $pb.GeneratedMessage {

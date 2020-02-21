@@ -3,8 +3,8 @@ import 'package:HolySheetWebserver/serializer.dart';
 import 'package:shelf/src/request.dart';
 import 'package:shelf/src/response.dart';
 
-import '../request_utils.dart';
-import 'endpoint.dart';
+import '../../request_utils.dart';
+import '../endpoint.dart';
 
 class ListEndpoint extends Endpoint {
   ListEndpoint([String route = '/list']) : super(route: route);

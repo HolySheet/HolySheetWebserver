@@ -5,7 +5,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 import '../request_utils.dart';
-import 'endpoint.dart';
+import 'service.dart';
 
 final env = Platform.environment;
 
@@ -13,30 +13,24 @@ int get millsTime => DateTime.now().millisecondsSinceEpoch;
 
 class EndpointManager {
   final HolySheetServiceClient client;
-  final endpoints = <Endpoint>[];
-  final raw = <RawHandler>[];
+  final services = <Service>[];
 
   EndpointManager(this.client);
 
-  void addEndpoints(List<Endpoint> endpoint) => endpoints.addAll(endpoint);
+  void addService(Service registrable) => services.add(registrable);
 
-  void addEndpoint(Endpoint endpoint) => endpoints.add(endpoint);
-
-  void addRaw(String path, Function handler, [String verb = 'GET']) =>
-      raw.add(RawHandler(verb, path, handler));
+  void addServices(List<Service> registrable) => services.addAll(registrable);
 
   Handler createHandler() {
     final router = Router();
-    for (var endpoint in endpoints) {
-      endpoint.register(router, client);
+    for (var service in services) {
+      service.register(router, client);
     }
 
-    for (var handler in raw) {
-      router.add(handler.verb, handler.path, handler.handler);
-    }
+    print('Registered ${services.length} services');
 
     router.all(
-        '/<ignored|.*>', (Request request) => notFound('Page not found'));
+        '/<ignored|.*>', (Request request) => notFound('Resource not found'));
 
     return Pipeline()
         .addMiddleware(createMiddleware(

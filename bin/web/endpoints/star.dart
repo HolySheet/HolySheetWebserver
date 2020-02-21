@@ -2,8 +2,8 @@ import 'package:HolySheetWebserver/generated/holysheet_service.pb.dart';
 import 'package:shelf/src/request.dart';
 import 'package:shelf/src/response.dart';
 
-import '../request_utils.dart';
-import 'endpoint.dart';
+import '../../request_utils.dart';
+import '../endpoint.dart';
 
 class StarEndpoint extends Endpoint {
   StarEndpoint([String route = '/star']) : super(route: route);

@@ -4,9 +4,9 @@ import 'package:HolySheetWebserver/generated/holysheet_service.pb.dart';
 import 'package:shelf/src/request.dart';
 import 'package:shelf/src/response.dart';
 
-import '../request_utils.dart';
-import 'endpoint.dart';
-import 'endpoint_manager.dart';
+import '../../request_utils.dart';
+import '../endpoint.dart';
+import '../endpoint_manager.dart';
 
 class DownloadEndpoint extends Endpoint {
   DownloadEndpoint([String route = '/download']) : super(route: route);

@@ -6,8 +6,10 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 import '../request_utils.dart';
+import '../server.dart';
+import 'service.dart';
 
-class Endpoint {
+abstract class Endpoint implements Service {
   HolySheetServiceClient client;
 
   String route;
@@ -16,6 +18,7 @@ class Endpoint {
 
   Endpoint({@required String route}) : route = route;
 
+  @override
   void register(Router router, HolySheetServiceClient client) {
     this.client = client;
 
@@ -38,5 +41,5 @@ class Endpoint {
   }
 
   Future<Response> handle(
-      Request request, String token, Map<String, String> query) async {}
+      Request request, String token, Map<String, String> query);
 }

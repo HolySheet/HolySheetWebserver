@@ -40,13 +40,11 @@ class UploadRequest_Compression extends $pb.ProtobufEnum {
 }
 
 class UploadResponse_UploadStatus extends $pb.ProtobufEnum {
-  static const UploadResponse_UploadStatus PENDING = UploadResponse_UploadStatus._(0, 'PENDING');
-  static const UploadResponse_UploadStatus UPLOADING = UploadResponse_UploadStatus._(1, 'UPLOADING');
-  static const UploadResponse_UploadStatus COMPLETE = UploadResponse_UploadStatus._(2, 'COMPLETE');
+  static const UploadResponse_UploadStatus READY = UploadResponse_UploadStatus._(0, 'READY');
+  static const UploadResponse_UploadStatus COMPLETE = UploadResponse_UploadStatus._(1, 'COMPLETE');
 
   static const $core.List<UploadResponse_UploadStatus> values = <UploadResponse_UploadStatus> [
-    PENDING,
-    UPLOADING,
+    READY,
     COMPLETE,
   ];
 
