@@ -14,9 +14,9 @@ abstract class Endpoint implements Service {
 
   String route;
   String verb = 'GET';
-  AuthMethod authMethod = AuthMethod.Header;
+  AuthMethod authMethod;
 
-  Endpoint({@required String route}) : route = route;
+  Endpoint({@required String route, AuthMethod authMethod = AuthMethod.Header}) : route = route, authMethod = authMethod;
 
   @override
   void register(Router router, HolySheetServiceClient client) {

@@ -5,6 +5,7 @@ import 'package:shelf/src/response.dart';
 
 import '../../request_utils.dart';
 import '../endpoint.dart';
+import '../endpoint_manager.dart';
 
 class ListEndpoint extends Endpoint {
   ListEndpoint([String route = '/list']) : super(route: route);
@@ -18,10 +19,10 @@ class ListEndpoint extends Endpoint {
 
     var response = await client.listFiles(ListRequest()
       ..token = token
-      ..path = path
+      ..path = path.correctPath()
       ..starred = starred
       ..trashed = trashed);
 
-    return ok(serialize(response.items));
+    return ok({'files': serialize(response.items), 'folders': response.folders});
   }
 }

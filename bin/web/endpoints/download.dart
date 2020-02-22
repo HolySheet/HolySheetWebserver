@@ -9,7 +9,7 @@ import '../endpoint.dart';
 import '../endpoint_manager.dart';
 
 class DownloadEndpoint extends Endpoint {
-  DownloadEndpoint([String route = '/download']) : super(route: route);
+  DownloadEndpoint([String route = '/download']) : super(route: route, authMethod: AuthMethod.Query);
 
   @override
   Future<Response> handle(
@@ -35,8 +35,6 @@ class DownloadEndpoint extends Endpoint {
       print('Downloading ${data.percentage * 100}%');
       return data.status == DownloadResponse_DownloadStatus.COMPLETE;
     }, (data) => data.item);
-
-    print('serving $file');
 
     return serveFile(request, downloaded.name, file);
   }

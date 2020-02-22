@@ -38,7 +38,7 @@ class EndpointManager {
                 ? Response.ok(null, headers: _headers)
                 : null,
             responseHandler: (Response response) =>
-                response.change(headers: _headers)))
+                response.change(headers: {...response.headers, ..._headers})))
         .addHandler(router.handler);
   }
 }

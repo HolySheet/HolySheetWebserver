@@ -33,8 +33,11 @@ Future<Response> serveFile(Request request, String name, File file,
     print('Sending response...');
     return Response.ok(file.openRead(), headers: headers);
   } finally {
-    print('Done with response, deleting file...');
-    await file.delete();
+    print('Set timer for 15 minutes to delete ${file.absolute.path}');
+    Timer(Duration(minutes: 15), () {
+      print('Deleting ${file.absolute.path}');
+      file.delete();
+    });
   }
 }
 
@@ -70,7 +73,7 @@ Response getBody(int code, dynamic body, {String defaultKey = 'message'}) {
   if (body is String) {
     body = {defaultKey: body ?? 'Unknown message'};
   }
-  return Response(code, body: jsonEncode(body));
+  return Response(code, body: jsonEncode(body), headers: {'Content-Type': 'applization/json'});
 }
 
 /// Processes a stream [stream], until [breakOut] returns true, being compared
@@ -144,6 +147,30 @@ extension ErrorFutureCatcher<T> on grpc.ResponseFuture<T> {
     catchError((error, stack) => print(
         'An error has occurred during a gRPC request future. Error:\n$error\nStack:\n$stack'));
     return this;
+  }
+}
+
+extension PathUtils on String {
+  String correctPath() {
+    if (length == 0) {
+      return '/';
+    } else if (length == 1) {
+      if (this == '/') {
+        return this;
+      } else {
+        return '/$this/';
+      }
+    } else {
+      var out = this;
+      if (!startsWith('/')) {
+        out = '/$out';
+      }
+
+      if (!endsWith('/')) {
+        out = '$out/';
+      }
+      return out;
+    }
   }
 }
 

@@ -16,9 +16,9 @@ abstract class Websocket implements Service {
 
   String route;
   String verb = 'GET';
-  AuthMethod authMethod = AuthMethod.Header;
+  AuthMethod authMethod;
 
-  Websocket({@required String route}) : route = route;
+  Websocket({@required String route, AuthMethod authMethod = AuthMethod.Header}) : route = route, authMethod = authMethod;
 
   @override
   void register(Router router, HolySheetServiceClient client) {
