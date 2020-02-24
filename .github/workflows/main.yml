@@ -18,10 +18,10 @@ jobs:
       - name: Compile Dart
         run: dart2native bin/server.dart -k aot -o server.aot
       - name: Publish to Registry
-          uses: HurricanKai/Publish-Docker-Github-Action@master
-          if: contains(github.ref, 'refs/tags/v')
-          with:
-            name: rubbaboy/testback
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-            tagging: true
+        uses: HurricanKai/Publish-Docker-Github-Action@master
+        if: contains(github.ref, 'refs/tags/v')
+        with:
+          name: rubbaboy/testback
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tagging: true
