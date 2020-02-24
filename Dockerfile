@@ -1,5 +1,8 @@
-FROM google/dart-runtime-base
+FROM google/dart AS dartc
+FROM bitnami/minideb
 
-ADD server.aot .
+COPY --from=dartc /usr/lib/dart/bin/dartaotruntime /dartaotruntime
 
-CMD ["/usr/bin/dartaotruntime", "server.aot"]
+ADD server.aot /.
+
+CMD ["/dartaotruntime", "server.aot"]
