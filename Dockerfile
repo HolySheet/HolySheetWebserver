@@ -1,4 +1,5 @@
-FROM google/dart-runtime
+FROM google/dart-runtime-base
 
-# ENTRYPOINT []
-CMD ["/usr/bin/dart", "main.dart"]
+ADD server.aot .
+
+CMD ["/usr/bin/dartaotruntime", "server.aot"]

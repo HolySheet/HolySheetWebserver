@@ -81,10 +81,7 @@ class UploadWebsocket extends Websocket {
     return activateWebsocket((webSocket) {
       final sink = webSocket.sink;
 
-      completeFunction = () {
-        print('Upload request complete');
-        sink.close(1000, json({'status': 'done'}));
-      };
+      completeFunction = () => sink.close(1000, json({'status': 'done'}));
 
       sendResponse = () {
         var progress = sentBytes / fileSize.toDouble();
@@ -131,7 +128,7 @@ class UploadWebsocket extends Websocket {
           streamController.close();
         }
         // before I did sendResponse() code directly
-      }, onDone: () => print('Websocket closed'));
+      });
 
       // Get first request
       sink.add(json({'status': 'ok', 'progress': 0}));

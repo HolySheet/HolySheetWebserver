@@ -6,7 +6,6 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 import '../request_utils.dart';
-import '../server.dart';
 import 'service.dart';
 
 abstract class Endpoint implements Service {
