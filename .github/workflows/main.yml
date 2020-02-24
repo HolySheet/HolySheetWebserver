@@ -4,6 +4,8 @@ on:
   push:
     branches:
       master
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build-windows:
@@ -13,12 +15,11 @@ jobs:
       image:  google/dart:latest
     steps:
       - uses: actions/checkout@v1
-      - name: Install dependensies
+      - name: Install Dependencies
         run: pub get
       - name: Compile Dart
         run: dart2native bin/server.dart -k aot -o server.aot
       - name: Publish to Registry
-        if: contains(github.ref, 'refs/tags/v')
         uses: HurricanKai/Publish-Docker-Github-Action@master
         with:
           name: rubbaboy/testback
