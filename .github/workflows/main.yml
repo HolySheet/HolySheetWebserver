@@ -2,8 +2,8 @@ name: Docker Build
 
 on:
   push:
-    tags:
-      - 'v**'
+    branches:
+      - master
 
 jobs:
   build-windows:
@@ -18,9 +18,10 @@ jobs:
       - name: Compile Dart
         run: dart2native bin/server.dart -k aot -o server.aot
       - name: Publish to Registry
-        uses: HurricanKai/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: rubbaboy/testback
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tagging: true
+          snapshot: true
+          dockerfile: Dockerfile
