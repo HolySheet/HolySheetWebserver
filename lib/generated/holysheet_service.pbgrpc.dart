@@ -73,6 +73,11 @@ class HolySheetServiceClient extends $grpc.Client {
           ($0.MoveFileRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.MoveFileResponse.fromBuffer(value));
+  static final _$renameFile =
+      $grpc.ClientMethod<$0.RenameRequest, $0.RenameResponse>(
+          '/com.uddernetworks.grpc.HolySheetService/renameFile',
+          ($0.RenameRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $0.RenameResponse.fromBuffer(value));
 
   HolySheetServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions options})
@@ -167,6 +172,14 @@ class HolySheetServiceClient extends $grpc.Client {
         options: options);
     return $grpc.ResponseFuture(call);
   }
+
+  $grpc.ResponseFuture<$0.RenameResponse> renameFile($0.RenameRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$renameFile, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
 }
 
 abstract class HolySheetServiceBase extends $grpc.Service {
@@ -255,6 +268,13 @@ abstract class HolySheetServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.MoveFileRequest.fromBuffer(value),
         ($0.MoveFileResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.RenameRequest, $0.RenameResponse>(
+        'renameFile',
+        renameFile_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.RenameRequest.fromBuffer(value),
+        ($0.RenameResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.ListResponse> listFiles_Pre(
@@ -309,6 +329,11 @@ abstract class HolySheetServiceBase extends $grpc.Service {
     return moveFile(call, await request);
   }
 
+  $async.Future<$0.RenameResponse> renameFile_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.RenameRequest> request) async {
+    return renameFile(call, await request);
+  }
+
   $async.Future<$0.ListResponse> listFiles(
       $grpc.ServiceCall call, $0.ListRequest request);
   $async.Stream<$0.UploadResponse> uploadFile(
@@ -331,4 +356,6 @@ abstract class HolySheetServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.StarRequest request);
   $async.Future<$0.MoveFileResponse> moveFile(
       $grpc.ServiceCall call, $0.MoveFileRequest request);
+  $async.Future<$0.RenameResponse> renameFile(
+      $grpc.ServiceCall call, $0.RenameRequest request);
 }

@@ -244,3 +244,16 @@ const MoveFileResponse$json = const {
   '1': 'MoveFileResponse',
 };
 
+const RenameRequest$json = const {
+  '1': 'RenameRequest',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'name', '3': 3, '4': 1, '5': 9, '10': 'name'},
+  ],
+};
+
+const RenameResponse$json = const {
+  '1': 'RenameResponse',
+};
+

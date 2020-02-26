@@ -1090,3 +1090,75 @@ class MoveFileResponse extends $pb.GeneratedMessage {
   static MoveFileResponse _defaultInstance;
 }
 
+class RenameRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RenameRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..aOS(1, 'token')
+    ..aOS(2, 'id')
+    ..aOS(3, 'name')
+    ..hasRequiredFields = false
+  ;
+
+  RenameRequest._() : super();
+  factory RenameRequest() => create();
+  factory RenameRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RenameRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  RenameRequest clone() => RenameRequest()..mergeFromMessage(this);
+  RenameRequest copyWith(void Function(RenameRequest) updates) => super.copyWith((message) => updates(message as RenameRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static RenameRequest create() => RenameRequest._();
+  RenameRequest createEmptyInstance() => create();
+  static $pb.PbList<RenameRequest> createRepeated() => $pb.PbList<RenameRequest>();
+  @$core.pragma('dart2js:noInline')
+  static RenameRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RenameRequest>(create);
+  static RenameRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get token => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set token($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearToken() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get id => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set id($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get name => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set name($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasName() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearName() => clearField(3);
+}
+
+class RenameResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RenameResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  RenameResponse._() : super();
+  factory RenameResponse() => create();
+  factory RenameResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RenameResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  RenameResponse clone() => RenameResponse()..mergeFromMessage(this);
+  RenameResponse copyWith(void Function(RenameResponse) updates) => super.copyWith((message) => updates(message as RenameResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static RenameResponse create() => RenameResponse._();
+  RenameResponse createEmptyInstance() => create();
+  static $pb.PbList<RenameResponse> createRepeated() => $pb.PbList<RenameResponse>();
+  @$core.pragma('dart2js:noInline')
+  static RenameResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RenameResponse>(create);
+  static RenameResponse _defaultInstance;
+}
+
