@@ -297,6 +297,7 @@ class UploadRequest extends $pb.GeneratedMessage {
     ..aInt64(7, 'sheetSize', protoName: 'sheetSize')
     ..aInt64(8, 'fileSize', protoName: 'fileSize')
     ..aOS(9, 'processingId', protoName: 'processingId')
+    ..aOS(10, 'localPath', protoName: 'localPath')
     ..hasRequiredFields = false
   ;
 
@@ -395,6 +396,15 @@ class UploadRequest extends $pb.GeneratedMessage {
   $core.bool hasProcessingId() => $_has(8);
   @$pb.TagNumber(9)
   void clearProcessingId() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get localPath => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set localPath($core.String v) { $_setString(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasLocalPath() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearLocalPath() => clearField(10);
 }
 
 class UploadResponse extends $pb.GeneratedMessage {
@@ -820,130 +830,6 @@ class RestoreResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static RestoreResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RestoreResponse>(create);
   static RestoreResponse _defaultInstance;
-}
-
-class CodeExecutionRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeExecutionRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
-    ..aOS(1, 'code')
-    ..pPS(2, 'returnVariables', protoName: 'returnVariables')
-    ..hasRequiredFields = false
-  ;
-
-  CodeExecutionRequest._() : super();
-  factory CodeExecutionRequest() => create();
-  factory CodeExecutionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CodeExecutionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  CodeExecutionRequest clone() => CodeExecutionRequest()..mergeFromMessage(this);
-  CodeExecutionRequest copyWith(void Function(CodeExecutionRequest) updates) => super.copyWith((message) => updates(message as CodeExecutionRequest));
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static CodeExecutionRequest create() => CodeExecutionRequest._();
-  CodeExecutionRequest createEmptyInstance() => create();
-  static $pb.PbList<CodeExecutionRequest> createRepeated() => $pb.PbList<CodeExecutionRequest>();
-  @$core.pragma('dart2js:noInline')
-  static CodeExecutionRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CodeExecutionRequest>(create);
-  static CodeExecutionRequest _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get code => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set code($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasCode() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearCode() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.List<$core.String> get returnVariables => $_getList(1);
-}
-
-class CodeExecutionResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeExecutionResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
-    ..pPS(1, 'snippetResult', protoName: 'snippetResult')
-    ..pc<SerializedVariable>(2, 'variables', $pb.PbFieldType.PM, subBuilder: SerializedVariable.create)
-    ..hasRequiredFields = false
-  ;
-
-  CodeExecutionResponse._() : super();
-  factory CodeExecutionResponse() => create();
-  factory CodeExecutionResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CodeExecutionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  CodeExecutionResponse clone() => CodeExecutionResponse()..mergeFromMessage(this);
-  CodeExecutionResponse copyWith(void Function(CodeExecutionResponse) updates) => super.copyWith((message) => updates(message as CodeExecutionResponse));
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static CodeExecutionResponse create() => CodeExecutionResponse._();
-  CodeExecutionResponse createEmptyInstance() => create();
-  static $pb.PbList<CodeExecutionResponse> createRepeated() => $pb.PbList<CodeExecutionResponse>();
-  @$core.pragma('dart2js:noInline')
-  static CodeExecutionResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CodeExecutionResponse>(create);
-  static CodeExecutionResponse _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<$core.String> get snippetResult => $_getList(0);
-
-  @$pb.TagNumber(2)
-  $core.List<SerializedVariable> get variables => $_getList(1);
-}
-
-class CodeExecutionCallbackResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeExecutionCallbackResponse', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
-    ..aOS(1, 'callbackState', protoName: 'callbackState')
-    ..pPS(2, 'snippetResult', protoName: 'snippetResult')
-    ..pc<SerializedVariable>(3, 'variables', $pb.PbFieldType.PM, subBuilder: SerializedVariable.create)
-    ..hasRequiredFields = false
-  ;
-
-  CodeExecutionCallbackResponse._() : super();
-  factory CodeExecutionCallbackResponse() => create();
-  factory CodeExecutionCallbackResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CodeExecutionCallbackResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  CodeExecutionCallbackResponse clone() => CodeExecutionCallbackResponse()..mergeFromMessage(this);
-  CodeExecutionCallbackResponse copyWith(void Function(CodeExecutionCallbackResponse) updates) => super.copyWith((message) => updates(message as CodeExecutionCallbackResponse));
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static CodeExecutionCallbackResponse create() => CodeExecutionCallbackResponse._();
-  CodeExecutionCallbackResponse createEmptyInstance() => create();
-  static $pb.PbList<CodeExecutionCallbackResponse> createRepeated() => $pb.PbList<CodeExecutionCallbackResponse>();
-  @$core.pragma('dart2js:noInline')
-  static CodeExecutionCallbackResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CodeExecutionCallbackResponse>(create);
-  static CodeExecutionCallbackResponse _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get callbackState => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set callbackState($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasCallbackState() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearCallbackState() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.List<$core.String> get snippetResult => $_getList(1);
-
-  @$pb.TagNumber(3)
-  $core.List<SerializedVariable> get variables => $_getList(2);
-}
-
-class ListenCallbacksRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListenCallbacksRequest', package: const $pb.PackageName('com.uddernetworks.grpc'), createEmptyInstance: create)
-    ..hasRequiredFields = false
-  ;
-
-  ListenCallbacksRequest._() : super();
-  factory ListenCallbacksRequest() => create();
-  factory ListenCallbacksRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ListenCallbacksRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  ListenCallbacksRequest clone() => ListenCallbacksRequest()..mergeFromMessage(this);
-  ListenCallbacksRequest copyWith(void Function(ListenCallbacksRequest) updates) => super.copyWith((message) => updates(message as ListenCallbacksRequest));
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static ListenCallbacksRequest create() => ListenCallbacksRequest._();
-  ListenCallbacksRequest createEmptyInstance() => create();
-  static $pb.PbList<ListenCallbacksRequest> createRepeated() => $pb.PbList<ListenCallbacksRequest>();
-  @$core.pragma('dart2js:noInline')
-  static ListenCallbacksRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListenCallbacksRequest>(create);
-  static ListenCallbacksRequest _defaultInstance;
 }
 
 class StarRequest extends $pb.GeneratedMessage {

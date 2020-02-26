@@ -17,11 +17,21 @@ jobs:
         run: pub get
       - name: Compile Dart
         run: dart2native bin/server.dart -k aot -o server.aot
+      - name: Get branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: get_branch
+      - name: Get commit hash
+        shell: bash
+        run: echo "##[set-output name=hash;]$(echo $(git rev-parse --short "$GITHUB_SHA") | cut -c1-8)"
+        id: get_hash
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: rubbaboy/testback
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          snapshot: true
           dockerfile: Dockerfile
+          tags: "${{ steps.get_branch.outputs.branch }}-${{ steps.get_hash.outputs.hash }}"
+      - name: Repository published
+        run: echo "docker pull rubbaboy/testback:${{ steps.get_branch.outputs.branch }}-${{ steps.get_hash.outputs.hash }}"

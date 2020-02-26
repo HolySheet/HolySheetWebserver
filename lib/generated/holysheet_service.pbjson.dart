@@ -61,6 +61,7 @@ const UploadRequest$json = const {
     const {'1': 'sheetSize', '3': 7, '4': 1, '5': 3, '10': 'sheetSize'},
     const {'1': 'fileSize', '3': 8, '4': 1, '5': 3, '10': 'fileSize'},
     const {'1': 'processingId', '3': 9, '4': 1, '5': 9, '10': 'processingId'},
+    const {'1': 'localPath', '3': 10, '4': 1, '5': 9, '10': 'localPath'},
   ],
   '4': const [UploadRequest_Upload$json, UploadRequest_Compression$json],
 };
@@ -187,35 +188,6 @@ const RestoreRequest$json = const {
 
 const RestoreResponse$json = const {
   '1': 'RestoreResponse',
-};
-
-const CodeExecutionRequest$json = const {
-  '1': 'CodeExecutionRequest',
-  '2': const [
-    const {'1': 'code', '3': 1, '4': 1, '5': 9, '10': 'code'},
-    const {'1': 'returnVariables', '3': 2, '4': 3, '5': 9, '10': 'returnVariables'},
-  ],
-};
-
-const CodeExecutionResponse$json = const {
-  '1': 'CodeExecutionResponse',
-  '2': const [
-    const {'1': 'snippetResult', '3': 1, '4': 3, '5': 9, '10': 'snippetResult'},
-    const {'1': 'variables', '3': 2, '4': 3, '5': 11, '6': '.com.uddernetworks.grpc.SerializedVariable', '10': 'variables'},
-  ],
-};
-
-const CodeExecutionCallbackResponse$json = const {
-  '1': 'CodeExecutionCallbackResponse',
-  '2': const [
-    const {'1': 'callbackState', '3': 1, '4': 1, '5': 9, '10': 'callbackState'},
-    const {'1': 'snippetResult', '3': 2, '4': 3, '5': 9, '10': 'snippetResult'},
-    const {'1': 'variables', '3': 3, '4': 3, '5': 11, '6': '.com.uddernetworks.grpc.SerializedVariable', '10': 'variables'},
-  ],
-};
-
-const ListenCallbacksRequest$json = const {
-  '1': 'ListenCallbacksRequest',
 };
 
 const StarRequest$json = const {

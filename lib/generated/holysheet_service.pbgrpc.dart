@@ -50,18 +50,6 @@ class HolySheetServiceClient extends $grpc.Client {
           ($0.RestoreRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.RestoreResponse.fromBuffer(value));
-  static final _$executeCode =
-      $grpc.ClientMethod<$0.CodeExecutionRequest, $0.CodeExecutionResponse>(
-          '/com.uddernetworks.grpc.HolySheetService/executeCode',
-          ($0.CodeExecutionRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) =>
-              $0.CodeExecutionResponse.fromBuffer(value));
-  static final _$listenCallbacks = $grpc.ClientMethod<$0.ListenCallbacksRequest,
-          $0.CodeExecutionCallbackResponse>(
-      '/com.uddernetworks.grpc.HolySheetService/listenCallbacks',
-      ($0.ListenCallbacksRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) =>
-          $0.CodeExecutionCallbackResponse.fromBuffer(value));
   static final _$starRequest =
       $grpc.ClientMethod<$0.StarRequest, $0.StarResponse>(
           '/com.uddernetworks.grpc.HolySheetService/starRequest',
@@ -138,24 +126,6 @@ class HolySheetServiceClient extends $grpc.Client {
         _$restoreFile, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
-  }
-
-  $grpc.ResponseFuture<$0.CodeExecutionResponse> executeCode(
-      $0.CodeExecutionRequest request,
-      {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$executeCode, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
-  }
-
-  $grpc.ResponseStream<$0.CodeExecutionCallbackResponse> listenCallbacks(
-      $0.ListenCallbacksRequest request,
-      {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$listenCallbacks, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseStream(call);
   }
 
   $grpc.ResponseFuture<$0.StarResponse> starRequest($0.StarRequest request,
@@ -236,24 +206,6 @@ abstract class HolySheetServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.RestoreRequest.fromBuffer(value),
         ($0.RestoreResponse value) => value.writeToBuffer()));
-    $addMethod(
-        $grpc.ServiceMethod<$0.CodeExecutionRequest, $0.CodeExecutionResponse>(
-            'executeCode',
-            executeCode_Pre,
-            false,
-            false,
-            ($core.List<$core.int> value) =>
-                $0.CodeExecutionRequest.fromBuffer(value),
-            ($0.CodeExecutionResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ListenCallbacksRequest,
-            $0.CodeExecutionCallbackResponse>(
-        'listenCallbacks',
-        listenCallbacks_Pre,
-        false,
-        true,
-        ($core.List<$core.int> value) =>
-            $0.ListenCallbacksRequest.fromBuffer(value),
-        ($0.CodeExecutionCallbackResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.StarRequest, $0.StarResponse>(
         'starRequest',
         starRequest_Pre,
@@ -307,18 +259,6 @@ abstract class HolySheetServiceBase extends $grpc.Service {
     return restoreFile(call, await request);
   }
 
-  $async.Future<$0.CodeExecutionResponse> executeCode_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.CodeExecutionRequest> request) async {
-    return executeCode(call, await request);
-  }
-
-  $async.Stream<$0.CodeExecutionCallbackResponse> listenCallbacks_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$0.ListenCallbacksRequest> request) async* {
-    yield* listenCallbacks(call, await request);
-  }
-
   $async.Future<$0.StarResponse> starRequest_Pre(
       $grpc.ServiceCall call, $async.Future<$0.StarRequest> request) async {
     return starRequest(call, await request);
@@ -348,10 +288,6 @@ abstract class HolySheetServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.RemoveRequest request);
   $async.Future<$0.RestoreResponse> restoreFile(
       $grpc.ServiceCall call, $0.RestoreRequest request);
-  $async.Future<$0.CodeExecutionResponse> executeCode(
-      $grpc.ServiceCall call, $0.CodeExecutionRequest request);
-  $async.Stream<$0.CodeExecutionCallbackResponse> listenCallbacks(
-      $grpc.ServiceCall call, $0.ListenCallbacksRequest request);
   $async.Future<$0.StarResponse> starRequest(
       $grpc.ServiceCall call, $0.StarRequest request);
   $async.Future<$0.MoveFileResponse> moveFile(
