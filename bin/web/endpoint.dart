@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:HolySheetWebserver/generated/holysheet_service.pbgrpc.dart';
+import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -9,6 +10,9 @@ import '../request_utils.dart';
 import 'service.dart';
 
 abstract class Endpoint implements Service {
+
+  final log = Logger('Endpoint');
+
   HolySheetServiceClient client;
 
   String route;
@@ -35,7 +39,12 @@ abstract class Endpoint implements Service {
         return forbidden('Invalid checked token');
       }
 
-      return await handle(request, token, request.url?.queryParameters ?? {});
+      try {
+        return await handle(request, token, request.url?.queryParameters ?? {});
+      } catch (e, s) {
+        log.severe('An error has occurred while processing endpoint $verb $route', e, s);
+        return ise('An internal server error has occurred');
+      }
     });
   }
 

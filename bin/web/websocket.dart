@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:HolySheetWebserver/generated/holysheet_service.pbgrpc.dart';
+import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -12,6 +13,9 @@ import '../server.dart';
 import 'service.dart';
 
 abstract class Websocket implements Service {
+
+  final log = Logger('Websocket');
+
   HolySheetServiceClient client;
 
   String route;

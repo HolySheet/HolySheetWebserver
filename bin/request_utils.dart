@@ -4,9 +4,11 @@ import 'dart:io';
 
 import 'package:grpc/grpc.dart' as grpc;
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 import 'package:shelf/shelf.dart';
 import 'package:uuid/uuid.dart';
 
+final log = Logger('RequestUtils');
 final ACCESS_TOKEN_PATTERN = RegExp(r'^[a-zA-Z0-9-._~+\/]*$');
 final uuid = Uuid();
 
@@ -30,12 +32,11 @@ Future<Response> serveFile(Request request, String name, File file,
   };
 
   try {
-    print('Sending response...');
     return Response.ok(file.openRead(), headers: headers);
   } finally {
-    print('Set timer for 15 minutes to delete ${file.absolute.path}');
+    log.fine('Set timer for 15 minutes to delete ${file.absolute.path}');
     Timer(Duration(minutes: 15), () {
-      print('Deleting ${file.absolute.path}');
+      log.fine('Deleting ${file.absolute.path}');
       file.delete();
     });
   }
@@ -59,10 +60,8 @@ Response notFound(dynamic body) => getBody(404, body);
 
 /// Returns a [Response] with the code 500 Internal Server Error.
 /// To see [body] docs, see [getBody].
-Response ise(String message, String stacktrace) {
-  print(message);
-  print(stacktrace);
-  return getBody(500, {'message': message, 'stacktrace': stacktrace});
+Response ise(String message) {
+  return getBody(500, {'message': message});
 }
 
 /// Gets the body, used for [Request]s.
@@ -118,13 +117,11 @@ Future<bool> verifyToken(String accessToken) async {
     var json = jsonDecode(response.body);
 
     if (json['audience'] != CLIENT_ID) {
-      print('Audience do not match');
       return false;
     }
 
     var split = json['scope']?.split(' ')?.toSet();
     if (!(split?.containsAll(FULL_SCOPES) ?? true)) {
-      print('User missing scope(s)');
       return false;
     }
 
@@ -136,16 +133,14 @@ Future<bool> verifyToken(String accessToken) async {
 
 extension ErrorStreamCatcher<T> on grpc.ResponseStream<T> {
   grpc.ResponseStream<T> printErrors() {
-    handleError((error, stack) => print(
-        'An error has occurred during a gRPC request stream. Error:\n$error\nStack:\n$stack'));
+    handleError((e, s) => log.severe('An error has occurred during a gRPC request future', e, s));
     return this;
   }
 }
 
 extension ErrorFutureCatcher<T> on grpc.ResponseFuture<T> {
   grpc.ResponseFuture<T> printErrors() {
-    catchError((error, stack) => print(
-        'An error has occurred during a gRPC request future. Error:\n$error\nStack:\n$stack'));
+    catchError((e, s) => log.severe('An error has occurred during a gRPC request future', e, s));
     return this;
   }
 }
@@ -172,6 +167,10 @@ extension PathUtils on String {
       return out;
     }
   }
+}
+
+extension NumberPad on int {
+  String get timePadded => toString().padLeft(2, '0');
 }
 
 String json(Map<String, dynamic> json) => jsonEncode(json);

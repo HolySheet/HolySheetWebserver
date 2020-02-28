@@ -23,6 +23,7 @@ dependencies:
   intl: ^0.16.1
   shelf_web_socket: ^0.2.3
   web_socket_channel: ^1.1.0
+  logging: ^0.11.4
 
 # protoc --dart_out=grpc:lib/generated -Iprotos protos/holysheet_service.proto
 

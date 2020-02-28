@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:HolySheetWebserver/generated/holysheet_service.pbgrpc.dart';
+import 'package:logging/logging.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
@@ -12,6 +13,7 @@ final env = Platform.environment;
 int get millsTime => DateTime.now().millisecondsSinceEpoch;
 
 class EndpointManager {
+  final log = Logger('EndpointManager');
   final HolySheetServiceClient client;
   final services = <Service>[];
 
@@ -27,7 +29,7 @@ class EndpointManager {
       service.register(router, client);
     }
 
-    print('Registered ${services.length} services');
+    log.fine('Registered ${services.length} services');
 
     router.all(
         '/<ignored|.*>', (Request request) => notFound('Resource not found'));
@@ -51,7 +53,7 @@ Map<String, String> _headers = {
       'Authorization, Origin, X-Requested-With, Content-Type, Accept',
   'Access-Control-Allow-Methods': 'GET, POST',
   'Access-Control-Max-Age': '9999',
-//  'Content-Type': 'application/json',
+  'X-Backend-Server': Platform.localHostname,
 };
 
 class RawHandler {

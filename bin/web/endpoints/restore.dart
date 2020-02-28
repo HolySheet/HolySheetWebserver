@@ -1,4 +1,5 @@
 import 'package:HolySheetWebserver/generated/holysheet_service.pb.dart';
+import 'package:logging/logging.dart';
 import 'package:shelf/src/request.dart';
 import 'package:shelf/src/response.dart';
 
@@ -6,6 +7,9 @@ import '../../request_utils.dart';
 import '../endpoint.dart';
 
 class RestoreEndpoint extends Endpoint {
+  @override
+  final log = Logger('RestoreEndpoint');
+
   RestoreEndpoint([String route = '/restore']) : super(route: route);
 
   @override

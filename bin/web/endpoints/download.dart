@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:HolySheetWebserver/generated/holysheet_service.pb.dart';
+import 'package:logging/logging.dart';
 import 'package:shelf/src/request.dart';
 import 'package:shelf/src/response.dart';
 
@@ -9,6 +10,9 @@ import '../endpoint.dart';
 import '../endpoint_manager.dart';
 
 class DownloadEndpoint extends Endpoint {
+  @override
+  final log = Logger('DownloadEndpoint');
+
   DownloadEndpoint([String route = '/download']) : super(route: route, authMethod: AuthMethod.Query);
 
   @override
@@ -23,7 +27,6 @@ class DownloadEndpoint extends Endpoint {
     final downloadId = uuid.v4();
     final file =
         File('${env['PROCESSING_PATH']}${Platform.pathSeparator}$downloadId');
-    print('downloading with ID: $file');
 
     final downloaded = await processStream<ListItem, DownloadResponse>(
         await client
@@ -32,7 +35,7 @@ class DownloadEndpoint extends Endpoint {
               ..id = id
               ..path = file.absolute.path)
             .printErrors(), (data) {
-      print('Downloading ${data.percentage * 100}%');
+      log.fine('Downloading ${data.percentage * 100}%');
       return data.status == DownloadResponse_DownloadStatus.COMPLETE;
     }, (data) => data.item);
 

@@ -1,5 +1,6 @@
 import 'package:HolySheetWebserver/generated/holysheet_service.pb.dart';
 import 'package:HolySheetWebserver/serializer.dart';
+import 'package:logging/logging.dart';
 import 'package:shelf/src/request.dart';
 import 'package:shelf/src/response.dart';
 
@@ -8,6 +9,9 @@ import '../endpoint.dart';
 import '../endpoint_manager.dart';
 
 class ListEndpoint extends Endpoint {
+  @override
+  final log = Logger('ListEndpoint');
+
   ListEndpoint([String route = '/list']) : super(route: route);
 
   @override

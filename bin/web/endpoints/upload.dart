@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:HolySheetWebserver/generated/holysheet_service.pb.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:logging/logging.dart';
 import 'package:shelf/shelf.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -11,6 +12,9 @@ import '../../request_utils.dart';
 import '../websocket.dart';
 
 class UploadWebsocket extends Websocket {
+  @override
+  final log = Logger('UploadWebsocket');
+
   UploadWebsocket([String route = '/upload'])
       : super(route: route, authMethod: AuthMethod.Query);
 
@@ -22,7 +26,14 @@ class UploadWebsocket extends Websocket {
       FutureOr<Response> Function(Function(WebSocketChannel) onConnection)
           activateWebsocket) async {
     var fileName = query['name'];
-    var path = query['path'].correctPath();
+    var path = query['path'];
+
+    if (!isValidParam(fileName) || !isValidParam(path) || !isValidParam(query['length'])) {
+      return bad('Invalid parameters');
+    }
+
+    path = path.correctPath();
+
     final fileSize = Int64.parseInt(query['length']);
 
     var processingId = uuid.v4();
@@ -116,18 +127,11 @@ class UploadWebsocket extends Websocket {
             return;
           }
         } catch (e, s) {
-          print(e);
-          print(s);
-          sink.close(
-              1011,
-              json({
-                'status': 'An internal error occurred',
-                'error': e,
-                'stacktrace': s,
-              }));
+          log.severe('An error has occurred while uploading a file', e, s);
+          sink.close(1011,
+              json({'status': 'An internal error occurred', 'progress': 0}));
           streamController.close();
         }
-        // before I did sendResponse() code directly
       });
 
       // Get first request
