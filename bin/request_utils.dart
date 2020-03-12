@@ -72,7 +72,7 @@ Response getBody(int code, dynamic body, {String defaultKey = 'message'}) {
   if (body is String) {
     body = {defaultKey: body ?? 'Unknown message'};
   }
-  return Response(code, body: jsonEncode(body), headers: {'Content-Type': 'applization/json'});
+  return Response(code, body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
 }
 
 /// Processes a stream [stream], until [breakOut] returns true, being compared

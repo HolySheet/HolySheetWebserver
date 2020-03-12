@@ -27,6 +27,6 @@ class CreateFolderEndpoint extends Endpoint {
             ..path = path.correctPath())
           .printErrors();
 
-    return ok('Creates successfully');
+    return ok('Created successfully');
   }
 }
