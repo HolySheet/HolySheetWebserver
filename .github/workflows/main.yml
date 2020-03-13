@@ -40,7 +40,7 @@ jobs:
         with:
           NAME: testback
           LABEL: docker
-          STATUS: "${{ steps.get_branch.outputs.branch }}-${{ steps.get_hash.outputs.hash }}"
+          STATUS: "testback:${{ steps.get_branch.outputs.branch }}-${{ steps.get_hash.outputs.hash }}"
           COLOR: 0576B7
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: FTP-Deploy-Action

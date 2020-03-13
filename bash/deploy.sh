@@ -1,10 +1,18 @@
 #!/bin/bash
 
-if [[ "$1" = "" ]] || [[ "$2" = "" ]] || [[ "$3" = "" ]]
+if [[ "$1" = "" ]] || [[ "$2" = "" ]] || [[ "$3" = "" ]] || [[ "$4" = "" ]]
 then
-    echo "Format: ./deploy [replicaCount] [testback/backendVersion] [hs/holySheetVersion]"
+    echo "Format: ./deploy [replicaCount] [testback/backendVersion] [hs/holySheetVersion] [domain] <credentials file>"
     exit
 fi
+
+if [[ "$5" = "true" ]]
+then
+  echo "Creating credentials file from \"$5\""
+  kubectl create secret generic google-credentials --from-file=$5
+fi
+
+exit
 
 echo "Using images rubbaboy/testback:$2 and rubbaboy/hs:$3"
 
@@ -42,7 +50,7 @@ spec:
             - name: GRPC
               value: '8888'
             - name: ALLOW_ORIGIN
-              value: 'https://holysheet.net'
+              value: '$4'
             - name: PROCESSING_PATH
               value: '/tmp/processing'
         - name: core
@@ -73,3 +81,6 @@ EOT
 echo "Applying to kubernetes..."
 
 kubectl apply -f kubernetes.yml
+
+echo "To change arguments, run the following command with your prefered arguments:"
+echo "./deploy $1 $2 $3 $4"
